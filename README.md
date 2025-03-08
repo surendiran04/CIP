@@ -2,7 +2,15 @@ Step1: Installtion of necessary dependencies<br/>
 `!pip install flask flask-cors pymongo deepface opencv-python mediapipe python-dotenv pyngrok ` <br/> <br/>
 Step 2: Add ngrok Authentication Token - to make backend address publicly access in our device <br/>
 ` !ngrok config add-authtoken YOUR_NGROK_AUTHTOKEN ` <br/> <br/>
-Step 3:Run Flask & Expose It with Ngrok - Run this code in another cell <br/>
+
+Step3: To make sure ,Uploaded the necessary files that wanted to run (optional) <br/>
+` !ls /content/ ` <br/>
+
+step4: To run the local app.py file in the collab and also to cat the op <br/>
+` !nohup python app.py & ` <br/>
+` !cat nohup.out ` <br/> <br/>
+
+Step 5:Run Flask & Expose It with Ngrok - Run this code in another cell <br/>
 ```
 from flask import Flask
 from flask_cors import CORS
@@ -31,10 +39,3 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)  # ✅ Listen on all interfaces
 
 ```
-<br/>
-Step4: To make sure ,Uploaded the necessary files that wanted to run (optional) <br/>
-` !ls /content/ ` <br/>
-
-step5: To run the local app.py file in the collab and also to cat the op <br/>
-` !nohup python app.py & ` <br/>
-` !cat nohup.out ` <br/>
