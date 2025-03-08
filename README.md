@@ -22,4 +22,6 @@ def home():
 # ✅ Start Flask in the background
 app.run(port=5000)
 ```
- 
+<br/>
+Step4: To make sure ,Uploaded the necessary files that wanted to run (optional)<br/>
+`!ls /content/` <br/>
