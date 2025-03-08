@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
 ```
 <br/>
-Step4: To make sure ,Uploaded the necessary files that wanted to run (optional)<br/>
+Step4: To make sure ,Uploaded the necessary files that wanted to run (optional) <br/>
 ` !ls /content/ ` <br/>
 
 step5: To run the local app.py file in the collab and also to cat the op <br/>
