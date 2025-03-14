@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Marking</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        video {
+            width: 60%;
+            border: 2px solid black;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #name-container {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>ATTENDANCE MARKING</h1>
+    <button onclick="registerFace()">Register Face</button>
+    <button onclick="startCamera()">Open Camera</button>
+    <button onclick="stopCamera()">Close Camera</button>
+
+    <br>
+    <img id="video-feed" src="" alt="Camera feed will appear here">
+
+    <div id="name-container">
+        <input type="text" id="name" placeholder="Enter your name">
+        <button onclick="submitFace()">Submit</button>
+    </div>
+
+    <script>
+        let videoStream = null;
+
+        function registerFace() {
+            startCamera(); // Open camera first
+            document.getElementById("name-container").style.display = "block"; // Show input field
+        }
+
+        function submitFace() {
+            const name = document.getElementById("name").value;
+            if (!name) {
+                alert("Please enter your name!");
+                return;
+            }
+
+            fetch("/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "name=" + encodeURIComponent(name)
+            })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    document.getElementById("name-container").style.display = "none"; // Hide input
+                })
+                .catch(error => console.error("Error:", error));
+        }
+
+        function startCamera() {
+            document.getElementById("video-feed").src = "/video_feed";
+        }
+
+        function stopCamera() {
+            document.getElementById("video-feed").src = "";
+            document.getElementById("name-container").style.display = "none"; // Hide input when stopping camera
+        }
+    </script>
+</body>
+
+</html>
