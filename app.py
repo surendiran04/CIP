@@ -71,15 +71,14 @@ def generate_frames():
             if os.path.exists(PICKLE_FILE):
                 with open(PICKLE_FILE, "rb") as f:
                     stored_faces = pickle.load(f)
-                print("Stored Faces:", stored_faces)
-            else:
-                stored_faces = {}
 
             image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             results = face_detection.process(image_rgb)
             image = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
 
             if results.detections:
+                print("Stored Faces:", stored_faces)  # Print only when a face is detected
+
                 for detection in results.detections:
                     bboxC = detection.location_data.relative_bounding_box
                     h, w, _ = image.shape
