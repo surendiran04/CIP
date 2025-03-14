@@ -88,11 +88,12 @@ def generate_frames():
 
                     cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-                    # Extract embedding and compare with stored faces
+                    # Extract embedding
                     embedding = extract_embedding(image, detection)
-                    if embedding is not None and stored_faces:
+                    best_match = "Unknown"  # Default to "Unknown"
+
+                    if embedding is not None and stored_faces:  
                         min_similarity = float('inf')
-                        best_match = None
 
                         for name, stored_embedding in stored_faces.items():
                             similarity = np.linalg.norm(embedding - stored_embedding)  # Euclidean distance
@@ -102,17 +103,18 @@ def generate_frames():
                                 min_similarity = similarity
                                 best_match = name
 
-                        if min_similarity < 5000:  # Adjust threshold based on testing
-                            print(f"Matched: {best_match}, Similarity: {min_similarity}")
-                            cv2.putText(image, best_match, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-                        else:
-                            print("Person Not Identified")
-                            cv2.putText(image, "Unknown", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
+                        # Set threshold for recognition
+                        if min_similarity >= 5000 or best_match is None:
+                            best_match = "Unknown"
+
+                    print(f"Recognized as: {best_match}")
+                    cv2.putText(image, best_match, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255) if best_match == "Unknown" else (0, 255, 0), 2)
 
             _, buffer = cv2.imencode('.jpg', image)
             frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
 
 
 @app.route('/video_feed')
