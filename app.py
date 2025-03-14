@@ -30,7 +30,9 @@ def extract_embedding(image, detection):
     face = image[y:y+h, x:x+w]
     if face.size == 0:
         return None
-    return cv2.resize(face, (50, 50)).flatten()  # Resize to fixed size and flatten
+    
+    resized_face = cv2.resize(face, (50, 50)).flatten().astype(np.float32)  
+    return resized_face / np.linalg.norm(resized_face)  # Normalize embedding
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -77,7 +79,7 @@ def generate_frames():
             image = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
 
             if results.detections:
-                print("Stored Faces:", stored_faces)  # Print only when a face is detected
+                print("Stored Faces:", stored_faces)  # Debugging
 
                 for detection in results.detections:
                     bboxC = detection.location_data.relative_bounding_box
@@ -89,12 +91,23 @@ def generate_frames():
                     # Extract embedding and compare with stored faces
                     embedding = extract_embedding(image, detection)
                     if embedding is not None and stored_faces:
+                        min_similarity = float('inf')
+                        best_match = None
+
                         for name, stored_embedding in stored_faces.items():
-                            similarity = np.linalg.norm(embedding - stored_embedding)
-                            if similarity < 10000:  # Adjust threshold based on testing
-                                print(f"Matched: {name}, Similarity: {similarity}")
-                                cv2.putText(image, name, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
-                                break  # Stop checking once a match is found
+                            similarity = np.linalg.norm(embedding - stored_embedding)  # Euclidean distance
+                            print(f"Checking {name}, Similarity: {similarity}")  # Debugging
+
+                            if similarity < min_similarity:  # Find the closest match
+                                min_similarity = similarity
+                                best_match = name
+
+                        if min_similarity < 5000:  # Adjust threshold based on testing
+                            print(f"Matched: {best_match}, Similarity: {min_similarity}")
+                            cv2.putText(image, best_match, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+                        else:
+                            print("Person Not Identified")
+                            cv2.putText(image, "Unknown", (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
 
             _, buffer = cv2.imencode('.jpg', image)
             frame = buffer.tobytes()
