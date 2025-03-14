@@ -1,19 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
-os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
-
+import gridfs  # ✅ GridFS for storing images
 from dotenv import load_dotenv
 from datetime import datetime
 from bson.objectid import ObjectId
-from db import attendance_collection, faces_collection
+from db import attendance_collection, faces_collection, fs  # ✅ Import GridFS from db.py
 from face_recognition import recognize_face, register_face
 
 # ✅ Load environment variables
 load_dotenv()
-
-UPLOAD_FOLDER = "uploads"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 app = Flask(__name__)
 CORS(app)
@@ -25,6 +21,27 @@ def home():
     return jsonify({"message": "Face Recognition Attendance System is Running!"})
 
 
+# ✅ Register a New Face (Store Face in MongoDB GridFS)
+@app.route("/register_face", methods=["POST"])
+def register_new_face():
+    if "image" not in request.files or "name" not in request.form:
+        return jsonify({"message": "Image and name are required!"}), 400
+
+    file = request.files["image"]
+    name = request.form["name"]
+
+    # ✅ Store image in MongoDB GridFS
+    image_id = fs.put(file, filename=f"{name}.jpg")
+
+    # ✅ Store face data in MongoDB
+    face_id = faces_collection.insert_one({
+        "name": name,
+        "image_id": image_id  # Store reference to GridFS
+    }).inserted_id
+
+    return jsonify({"message": f"{name} registered successfully!", "face_id": str(face_id)})
+
+
 # ✅ Mark Attendance using Face Recognition
 @app.route("/attendance", methods=["POST"])
 def mark_attendance():
@@ -32,23 +49,29 @@ def mark_attendance():
         return jsonify({"message": "No image uploaded!"}), 400
 
     file = request.files["image"]
-    image_path = os.path.join(UPLOAD_FOLDER, "temp.jpg")
-    file.save(image_path)
 
-    face_id = recognize_face(image_path)
+    # ✅ Save temporary file
+    temp_image_path = "temp.jpg"
+    file.save(temp_image_path)
+
+    # ✅ Recognize face
+    face_id = recognize_face(temp_image_path)
 
     if face_id:
         # Fetch user details
-        user = faces_collection.find_one({"_id": ObjectId(face_id)}, {"name": 1, "photo_url": 1})
+        user = faces_collection.find_one({"_id": ObjectId(face_id)}, {"name": 1, "image_id": 1})
         if not user:
             return jsonify({"message": "User not found!"}), 404
 
-        # Insert attendance record
+        # ✅ Retrieve image from GridFS
+        image_binary = fs.get(user["image_id"]).read()
+
+        # ✅ Insert attendance record
         attendance_collection.insert_one({"face_id": str(face_id), "timestamp": datetime.utcnow()})
 
         return jsonify({
             "name": user["name"],
-            "photo_url": user.get("photo_url"),
+            "photo": image_binary.hex(),  # ✅ Send image as binary data
             "status": "Present"
         })
 
@@ -58,16 +81,25 @@ def mark_attendance():
 # ✅ Get All Attendance Records with Names and Photos
 @app.route("/attendance", methods=["GET"])
 def get_attendance():
-    records = list(attendance_collection.find().sort("timestamp", -1))  # Sort by latest
+    records = list(attendance_collection.find().sort("timestamp", -1))
     formatted_records = []
 
     for record in records:
-        face = faces_collection.find_one({"_id": ObjectId(record["face_id"])}, {"name": 1, "photo_url": 1})
-        formatted_records.append({
-            "name": face["name"] if face else "Unknown",
-            "photo_url": face.get("photo_url") if face else None,
-            "timestamp": record["timestamp"].isoformat()
-        })
+        face = faces_collection.find_one({"_id": ObjectId(record["face_id"])}, {"name": 1, "image_id": 1})
+        
+        if face:
+            image_binary = fs.get(face["image_id"]).read()  # ✅ Fetch image from GridFS
+            formatted_records.append({
+                "name": face["name"],
+                "photo": image_binary.hex(),  # ✅ Convert binary to hex for API response
+                "timestamp": record["timestamp"].isoformat()
+            })
+        else:
+            formatted_records.append({
+                "name": "Unknown",
+                "photo": None,
+                "timestamp": record["timestamp"].isoformat()
+            })
 
     return jsonify({"attendance_records": formatted_records})
 
@@ -82,32 +114,20 @@ def clear_attendance():
 # ✅ List Registered Faces with Names & Photos
 @app.route("/registered_faces", methods=["GET"])
 def get_registered_faces():
-    faces = list(faces_collection.find({}, {"_id": 1, "name": 1, "photo_url": 1}))
+    faces = list(faces_collection.find({}, {"_id": 1, "name": 1, "image_id": 1}))
 
+    formatted_faces = []
     for face in faces:
-        face["_id"] = str(face["_id"])  # Convert ObjectId to string
+        image_binary = fs.get(face["image_id"]).read()  # ✅ Retrieve image from GridFS
+        formatted_faces.append({
+            "_id": str(face["_id"]),
+            "name": face["name"],
+            "photo": image_binary.hex()  # ✅ Convert binary to hex string
+        })
 
-    return jsonify({"registered_faces": faces})
-
-
-# ✅ Register a New Face (Store Face Encoding)
-@app.route("/register_face", methods=["POST"])
-def register_new_face():
-    if "image" not in request.files or "name" not in request.form:
-        return jsonify({"message": "Image and name are required!"}), 400
-
-    file = request.files["image"]
-    name = request.form["name"]
-    image_path = os.path.join(UPLOAD_FOLDER, f"{name}.jpg")
-    file.save(image_path)
-
-    face_id = register_face(image_path, name)
-
-    if face_id:
-        return jsonify({"message": f"{name} registered successfully!", "face_id": str(face_id)})
-    else:
-        return jsonify({"message": "Face registration failed!"}), 500
+    return jsonify({"registered_faces": formatted_faces})
 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+
