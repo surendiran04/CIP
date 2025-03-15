@@ -31,22 +31,26 @@ const Attendance = () => {
       alert("Please capture an image first.");
       return;
     }
-
+  
     const imageFile = dataURLtoFile(image, "attendance.jpg");
     const formData = new FormData();
     formData.append("image", imageFile);
-
+  
     try {
       const response = await fetch(`${VITE_BACKEND_URL}/attendance`, {
         method: "POST",
         body: formData,
+        // credentials: 'include', // if cookies or auth are needed
       });
       const data = await response.json();
+      console.log(data)
+      console.log("response came");
       setResult(data);
     } catch (error) {
       console.error("Error marking attendance:", error);
     }
   };
+  
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-6">

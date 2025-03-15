@@ -1,15 +1,29 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 const { VITE_BACKEND_URL } = import.meta.env;
 
 const Records = () => {
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
-    axios.get(`${VITE_BACKEND_URL}/attendance`)
-      .then(res => setRecords(res.data.attendance_records))
-      .catch(() => setRecords([]));
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${VITE_BACKEND_URL}/attendance`, {
+          method: "GET",
+          credentials: 'include' 
+        });
+  
+        const data = await response.json(); 
+        console.log(data);
+        setRecords(data.attendance_records || []); 
+      } catch (error) {
+        console.error("Error fetching attendance:", error);
+        setRecords([]); 
+      }
+    };
+  
+    fetchData();
   }, []);
+  
 
   return (
     <div className="p-5">
@@ -18,7 +32,6 @@ const Records = () => {
         <table className="table-auto w-full border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-200">
-              <th className="border p-2">Photo</th>
               <th className="border p-2">Name</th>
               <th className="border p-2">Timestamp</th>
             </tr>
@@ -27,17 +40,6 @@ const Records = () => {
             {records.length > 0 ? (
               records.map((record, index) => (
                 <tr key={index} className="border">
-                  <td className="border p-2">
-                    {record.photo_url ? (
-                      <img
-                        src={record.photo_url}
-                        alt={record.name}
-                        className="w-12 h-12 rounded-full mx-auto"
-                      />
-                    ) : (
-                      <span className="text-gray-500">No Photo</span>
-                    )}
-                  </td>
                   <td className="border p-2">{record.name}</td>
                   <td className="border p-2">
                     {new Date(record.timestamp).toLocaleString()}

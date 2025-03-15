@@ -2,35 +2,49 @@ import { useState, useEffect } from "react";
 const { VITE_BACKEND_URL } = import.meta.env;
 
 const RegisteredUsers = () => {
-  const [users, setUsers] = useState([]);
+  const [records, setRecords] = useState([]);
 
   useEffect(() => {
-    fetch(`${VITE_BACKEND_URL}/registered_faces`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUsers(data.registered_faces);
-      })
-      .catch((err) => console.error("Error fetching registered users:", err));
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${VITE_BACKEND_URL}/registered_faces`, {
+          method: "GET",
+          credentials: 'include'
+        });
+        const data = await response.json();
+        console.log(data);
+        setRecords(data.registered_faces || []);
+      } catch (error) {
+        console.error("Error registered users :", error);
+        setRecords([]);
+      }
+    };
+    fetchData();
   }, []);
-
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Registered Users</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {users.map((user) => (
-          <div key={user._id} className="border p-4 rounded-lg text-center">
-            {user.photo_url ? (
-              <img
-                src={user.photo_url}
-                alt={user.name}
-                className="w-20 h-20 rounded-full mx-auto mb-2"
-              />
+    <div className="p-5">
+      <h2 className="text-2xl font-bold text-center mb-4">Attendance Records</h2>
+      <div className="overflow-x-auto">
+        <table className="table-auto w-full border-collapse border border-gray-300">
+          <thead>
+            <tr className="bg-gray-200">
+              <th className="border p-2">Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {records.length > 0 ? (
+              records.map((record, index) => (
+                <tr key={index} className="border">
+                  <td className="border p-2">{record.name}</td>
+                </tr>
+              ))
             ) : (
-              <div className="w-20 h-20 bg-gray-300 rounded-full mx-auto mb-2"></div>
+              <tr>
+                <td colSpan="3" className="text-center p-4 text-gray-500">No records found.</td>
+              </tr>
             )}
-            <p className="text-lg font-semibold">{user.name}</p>
-          </div>
-        ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
