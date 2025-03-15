@@ -11,13 +11,13 @@ mp_face_detection = mp.solutions.face_detection
 face_detection = mp_face_detection.FaceDetection(model_selection=1, min_detection_confidence=0.5)
 
 
-def recognize_face(image_path):
+def recognize_face(image_path):  
     """Recognizes a face from the image and returns the corresponding face_id from DB."""
     img = cv2.imread(image_path)
     img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     results = face_detection.process(img_rgb)
 
-    if results.detections:
+    if results.detections:      
         for detection in results.detections:
             bboxC = detection.location_data.relative_bounding_box
             h, w, _ = img.shape
@@ -26,16 +26,21 @@ def recognize_face(image_path):
 
             # Use DeepFace for Face Recognition
             result = DeepFace.find(img_path=image_path, db_path="faces_db/", model_name="ArcFace", enforce_detection=False)
-            if not result or result[0].empty:
-                print("Face not recognized.")
 
-            if len(result) > 0:
+            if not result or result[0].empty:
+                print("No match found in DeepFace.")
+                return False
+            
+            # Check if 'identity' exists and is not empty
+            if "identity" in result[0] and len(result[0]["identity"]) > 0:
                 matched_name = result[0]["identity"][0].split("/")[-1].split(".")[0]
                 face_record = faces_collection.find_one({"name": matched_name})
+                
                 if face_record:
                     return face_record["_id"]
 
-    return None
+    return False
+
 
 
 def register_face(image_path, name):
