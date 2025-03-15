@@ -5,6 +5,7 @@ import Attendance from "./pages/Attendance";
 import RegisterFace from "./pages/RegisterFace";
 import Records from "./pages/Records";
 import RegisteredUsers from "./pages/RegisteredUsers";
+import Attendance1 from "./pages/Attendance1";
 const { VITE_BACKEND_URL } = import.meta.env;
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/attendance" element={<Attendance />} />
+            <Route path="/attendance1" element={<Attendance1 />} />
             <Route path="/register" element={<RegisterFace />} />
             <Route path="/records" element={<Records />} />
             <Route path="/registered-users" element={<RegisteredUsers/>} />

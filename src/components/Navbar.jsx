@@ -16,6 +16,7 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-6">
           <Link to="/" className="hover:text-cyan-300 transition">Home</Link>
           <Link to="/attendance" className="hover:text-cyan-300 transition">Mark Attendance</Link>
+          <Link to="/attendance1"  className="hover:text-cyan-300 transition">Mark Attendance1</Link>
           <Link to="/register" className="hover:text-cyan-300 transition">Register Face</Link>
           <Link to="/records" className="hover:text-cyan-300 transition">Attendance Records</Link>
           <Link to="/registered-users" className="hover:text-cyan-300 transition">Registered Users</Link> {/* New Link */}
@@ -47,6 +48,7 @@ const Navbar = () => {
         <div className="md:hidden bg-teal-700 text-center py-4">
           <Link to="/" className="block py-2 hover:text-cyan-300" onClick={() => setIsOpen(false)}>Home</Link>
           <Link to="/attendance" className="block py-2 hover:text-cyan-300" onClick={() => setIsOpen(false)}>Mark Attendance</Link>
+          <Link to="/attendance1" className="block py-2 hover:text-cyan-300" onClick={() => setIsOpen(false)}>Mark Attendance1</Link>
           <Link to="/register" className="block py-2 hover:text-cyan-300" onClick={() => setIsOpen(false)}>Register Face</Link>
           <Link to="/records" className="block py-2 hover:text-cyan-300" onClick={() => setIsOpen(false)}>Attendance Records</Link>
           <Link to="/registered-users" className="block py-2 hover:text-cyan-300" onClick={() => setIsOpen(false)}>Registered Users</Link> {/* New Link */}
