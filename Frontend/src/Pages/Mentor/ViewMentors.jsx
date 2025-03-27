@@ -16,13 +16,17 @@ function ViewMentors() {
     reset,
   } = useForm();
 
+
   const onSubmit = (data) => {
-    const filterdata = mentors.filter((d) => d.mentor_name.toLowerCase().includes(data.search.toLowerCase()))
-    setMentors(filterdata)
-    if(data.search==""){
-      setMentors(mentorsDuplicate)
-    }
-  };
+    if (data.search === "") {
+      setMentors(mentorsDuplicate); // Restore full list
+    } else {
+      const filterdata = mentorsDuplicate.filter((d) => 
+        d.mentor_name.toLowerCase().includes(data.search.toLowerCase())
+      );
+      sets(filterdata);
+    }
+  };
 
  
   useEffect(() => {

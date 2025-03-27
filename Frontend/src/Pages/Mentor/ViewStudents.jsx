@@ -11,12 +11,16 @@ function ViewStudents() {
 
 
   const onSubmit = (data) => {
-    const filterdata = students.filter((d) => d.student_name.toLowerCase().includes(data.search.toLowerCase()))
-    setStudents(filterdata)
-    if(data.search==""){
-      setStudents(studentsDuplicate)
-    }
-  };
+    if (data.search === "") {
+      setStudents(studentsDuplicate); // Restore full list
+    } else {
+      const filterdata = studentsDuplicate.filter((d) => 
+        d.student_name.toLowerCase().includes(data.search.toLowerCase())
+      );
+      setStudents(filterdata);
+    }
+  };
+
   const {
     register,
     handleSubmit,
