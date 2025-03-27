@@ -13,34 +13,45 @@ function Profile() {
   const phone = user?.phone;
  
   return (
-    <>
-      <div className=' flex items-center justify-center  mt-10'>
-        <div className='w-full'>
-          <div className="text-4xl font-bold  text-dg text-center non-italic mb-4">
-            Profile
-          </div>
-          <div className='bg-darkb p-16 pl-24 flex flex-col gap-3'>
-            <p> <span className='text-3xl text-white '>Name: </span><span className='text-3xl text-gold1 '>{userRole=="student"?name:mname}</span> </p>
-            <p> <span className='text-3xl text-white '>Email: </span><span className='text-3xl text-gold1 '>{email}</span> </p>
-            <p> <span className='text-3xl text-white '>Phone: </span><span className='text-2xl text-gold1 '>{phone}</span> </p>
-            <NavLink
-              to="/courses"
-              className={`
-                    w-1/4
-                    text-center
-                    rounded-xl text-xl
-                    font-semibold hover:text-darkb py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
-                    bg-transparent border-white border-2 hover:bg-b2  text-white
-            `}
-            >
-              My Courses
-            </NavLink>
-          </div>
+    <div className="bg-gradient-to-r from-blue-50 to-gray-100 min-h-screen flex items-center justify-center p-6">
+      <div className="bg-darkb text-white p-12 rounded-lg shadow-xl w-full max-w-2xl">
+        
+        {/* Profile Heading */}
+        <h2 className="text-4xl font-bold text-white text-center mb-6">
+          Profile
+        </h2>
 
+        {/* Profile Info */}
+        <div className="bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
+          <p className="text-lg">
+            <span className="font-semibold text-gray-300">Name:</span> 
+            <span className="text-gold1 ml-2">{userRole === "student" ? name : mname}</span>
+          </p>
+          <p className="text-lg">
+            <span className="font-semibold text-gray-300">Email:</span> 
+            <span className="text-gold1 ml-2">{email}</span>
+          </p>
+          <p className="text-lg">
+            <span className="font-semibold text-gray-300">Phone:</span> 
+            <span className="text-gold1 ml-2">{phone}</span>
+          </p>
         </div>
+
+        {/* My Courses Button */}
+        <NavLink
+          to="/courses"
+          className="
+            block text-center mt-6 px-6 py-3 w-full
+            bg-transparent border-2 border-white text-white font-semibold
+            rounded-lg transition duration-300
+            hover:bg-b2 hover:text-darkb hover:border-b2
+          "
+        >
+          My Courses
+        </NavLink>
       </div>
-    </>
-  )
+    </div>
+  );
 }
 
 export default Profile

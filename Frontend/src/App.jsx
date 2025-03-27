@@ -4,6 +4,7 @@ import { useAuthContext } from "../src/Contexts/AuthContext";
 import { ROUTES, studentPrivateRoutes, studentPublicRoutes, mentorPublicRoutes, mentorPrivateRoutes } from "./Routes/Routes"
 import NotFound from "../src/Pages/NotFound";
 import Sidebar from "./Components/sidebar.jsx";
+import MentorSignUp from './Pages/Mentor/MentorSignup'
 
 function App() {
   const { isLoggedIn,decodedToken,open } = useAuthContext();
@@ -72,6 +73,7 @@ function App() {
           {(isLoggedIn && userRoles==="student") ?(renderStudentPrivateRoutes()):(renderStudentPublicRoutes())}
           {(isLoggedIn && userRoles==="mentor") ?(renderMentorPrivateRoutes()):(renderMentorPublicRoutes())}
           <Route Component={NotFound} path="*" />;
+          <Route Component={MentorSignUp} path="/mentor/signup1"/>
         </Routes>
       </div>
     </div>

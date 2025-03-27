@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaUserGraduate, FaPhoneAlt,FaBookOpen,FaKey,FaCommentDollar } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import Lord2 from "../../assets/lord5.png";
+import Lord2 from "../../assets/mentor_signup.jpg";
 
 export default function MentorSignUp() {
 
@@ -65,7 +65,7 @@ export default function MentorSignUp() {
     <div className="h-full w-full flex items-center justify-center gap-10  bg-gray-200">
       <div>
         <div className="text-3xl font-extrabold  text-bl text-center non-italic">
-          Mentor Sign Up
+          MENTOR SIGNUP
         </div>
         <div className="p-4 mt-3">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -170,7 +170,7 @@ export default function MentorSignUp() {
         </div>
       </div>
 
-      <div className=" w-2/6 h-4/6 ">
+      <div className=" w-2/6 h-4/6 relative top-6">
         <img src={Lord2} alt="" />
       </div>
       <ToastContainer

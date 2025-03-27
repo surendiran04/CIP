@@ -15,11 +15,11 @@ function Checkout() {
 
 
 
-  let notify = () => {};
+  let notify = () => { };
 
   const { id } = useParams();
 
-  const { courseContent , isContentLoading}=useCourseContext();
+  const { courseContent, isContentLoading } = useCourseContext();
 
 
 
@@ -32,19 +32,19 @@ function Checkout() {
 
 
   const onSubmit = (data) => {
-    console.log(content.course_id,user.student_id);
+    console.log(content.course_id, user.student_id);
     makePayment();
   };
 
   const makePayment = async () => {
     try {
-        setIsLoading(true);
+      setIsLoading(true);
       const response = await fetch(`${VITE_BACKEND_URL}/enrollCourse`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({course_id:content.course_id,student_id:user.student_id,amount:content.fees,email:content.email}),
+        body: JSON.stringify({ course_id: content.course_id, student_id: user.student_id, amount: content.fees, email: content.email }),
       });
       const result = await response.json();
       if (result.success) {
@@ -57,54 +57,54 @@ function Checkout() {
       toast.error(error.message);
 
     }
-    finally{
-        setIsLoading(false);
+    finally {
+      setIsLoading(false);
     }
   };
-  
+
   function composeFunctions(...funcs) {
     return () => {
-        funcs.forEach(func => func());
+      funcs.forEach(func => func());
     };
-}
-const combinedFunction = composeFunctions(onSubmit, notify);
+  }
+  const combinedFunction = composeFunctions(onSubmit, notify);
 
   return (
-    <div className=" flex items-center justify-center mt-10">
-      <div className="w-1/3">
-        <div className="text-4xl font-bold  text-dg text-center non-italic mb-4">
-          Checkout
-        </div>
-        <div className="bg-darkb p-10 ">
-          <h1 className="text-3xl text-white mb-4">{content.course_name}</h1>
-          <div className="flex gap-2 mb-3">
-            <p className="text-3xl text-white "> Price: </p>
-            <div className="flex">
-              <FaIndianRupeeSign className="text-2xl text-white mt-2 " />
-              <span className="text-2xl text-gold1 mb-3">{content.fees}</span>
+    <div className="bg-gradient-to-r from-blue-50 to-gray-100 min-h-screen p-10">
+      <div className="flex items-center justify-center">
+        <div className="w-full max-w-lg p-6 bg-blue-900 rounded-lg shadow-lg">
+          {/* Checkout Heading */}
+          <h2 className="text-4xl font-bold text-white text-center mb-6">CHECKOUT</h2>
+
+          {/* Course Details */}
+          <div className="text-white">
+            <h1 className="text-3xl font-semibold mb-4">{content.course_name}</h1>
+
+            <div className="flex items-center gap-3 mb-4">
+              <p className="text-2xl">Price:</p>
+              <div className="flex items-center">
+                <FaIndianRupeeSign className="text-2xl" />
+                <span className="text-2xl text-gold1 font-bold">{content.fees}</span>
+              </div>
             </div>
+
+            <div className="bg-gray-700 p-3 rounded-md mb-4">
+              <h4 className="text-xl">Duration: {content.duration}</h4>
+            </div>
+
+            {/* Payment Button */}
+            <button
+              className={`w-full py-3 text-xl font-semibold rounded-lg transition duration-300 ease-in-out ${isLoading
+                ? "bg-green-500 cursor-not-allowed opacity-75"
+                : "bg-green-600 hover:bg-green-500"
+                } text-white shadow-lg`}
+              type="submit"
+              disabled={isLoading}
+              onClick={combinedFunction}
+            >
+              {isLoading ? "Processing..." : "Make Payment"}
+            </button>
           </div>
-          <div className="w-fit bg-gray-600 p-3 flex mb-3">
-            <h4 className="text-white text-2xl ml-3">
-              {" "}
-              Duration: {content.duration}
-            </h4>
-          </div>
-          <button
-            className={`
-                    w-50
-                    rounded-xl text-xl ml-24
-                    font-semibold hover:text-white py-3 px-4 border hover:border-transparent transition duration-500 outline-none mt-5 mb-2 ${
-                      isLoading
-                        ? "bg-green-400 hover:bg-green-600 text-white"
-                        : "bg-transparent border-white border-2 hover:bg-green-600 text-white"
-                    }`}
-            type="submit"
-            disabled={isLoading}
-            onClick={combinedFunction}
-          >
-            {isLoading ? "Loading" : "Make Payment"}
-          </button>
         </div>
       </div>
       <ToastContainer

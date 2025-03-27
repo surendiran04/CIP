@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaUserGraduate,FaPhoneAlt,FaKey } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import Lord2 from "../../assets/lord1.png"
+import Lord2 from "../../assets/stud_signup.jpg"
 
 
 export default function SignUp() {
@@ -150,8 +150,8 @@ export default function SignUp() {
         </div>
       </div>
 
-      <div className=" w-1/4 h-2/4">
-        <img src={Lord2} alt="" />
+      <div className=" w-1/3 h-3/5 overflow-hidden">
+        <img src={Lord2} alt="" className="w-full h-full object-cover object-center"/>
 
       </div>
       <ToastContainer

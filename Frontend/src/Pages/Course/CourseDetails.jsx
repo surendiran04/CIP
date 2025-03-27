@@ -5,7 +5,7 @@ import { ShieldCheck } from "lucide-react";
 import { MdAssessment } from "react-icons/md";
 import { Laptop } from "lucide-react";
 import { FaIndianRupeeSign } from "react-icons/fa6";
-import {  useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../../Components/Header";
 import { useCourseContext } from "../../Contexts/CourseContext";
 import { ToastContainer, toast } from "react-toastify";
@@ -15,9 +15,9 @@ import { useAuthContext } from "../../Contexts/AuthContext";
 function CourseDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const {isLoggedIn} = useAuthContext();
+  const { isLoggedIn } = useAuthContext();
 
-  const { courseContent , isContentLoading}=useCourseContext();
+  const { courseContent, isContentLoading } = useCourseContext();
 
   let content = courseContent?.filter((ele) => {
     return ele.course_id == id;
@@ -31,9 +31,9 @@ function CourseDetails() {
     if (isLoggedIn) {
       navigate(`/checkout/${content.course_id}`);
     }
-    else{
+    else {
       notify();
-    } 
+    }
   };
 
   return (
@@ -42,47 +42,48 @@ function CourseDetails() {
       {isContentLoading ? (
         <div>Content is loading...</div>
       ) : (
-        <div>
-          <div className="flex flex-col gap-3 w-full  bg-db3 p-10">
-            <h1 className="text-5xl text-white mb-4">{content.course_name}</h1>
-            <h2 className="text-2xl text-gold1 mb-3">{content.tagline}</h2>
-            <p className="text-3xl text-white mb-5">Language:English</p>
-            <div className="flex flex-row gap-1 py-2 ">
-              <FaStar className="text-gold1 text-3xl" />
-              <FaStar className="text-gold1 text-3xl" />
-              <FaStar className="text-gold1 text-3xl" />
-              <FaStar className="text-gold1 text-3xl" />
-              <FaRegStar className="text-gold1 text-3xl" />
-              <span className="text-white text-3xl pl-3">4.1</span>
+        <div className="bg-gradient-to-r from-blue-50 to-gray-100 min-h-screen">
+          <div className="flex flex-col gap-2 w-full bg-db3 p-10">
+            <h1 className="text-5xl font-bold text-white">{content.course_name}</h1>
+            <h2 className="text-2xl italic text-gold1">{content.tagline}</h2>
+
+            <p className="text-2xl text-white mt-4">Language: English</p>
+
+            <div className="flex flex-row gap-1 items-center">
+              <FaStar className="text-gold1 text-2xl" />
+              <FaStar className="text-gold1 text-2xl" />
+              <FaStar className="text-gold1 text-2xl" />
+              <FaStar className="text-gold1 text-2xl" />
+              <FaRegStar className="text-gold1 text-2xl" />
+              <span className="text-white text-2xl pl-2">4.1</span>
             </div>
-            <div className="flex gap-2">
-              <p className="text-2xl text-white "> Buy this course @</p>
+
+            <div className="flex gap-2 items-center">
+              <p className="text-xl text-white">Buy this course @</p>
               <div className="flex">
-                <FaIndianRupeeSign className="text-2xl text-white mt-2 " />
-                <span className="text-2xl text-gold1 mb-3">{content.fees}</span>
+                <FaIndianRupeeSign className="text-xl text-white mt-1" />
+                <span className="text-xl text-gold1">{content.fees}</span>
               </div>
             </div>
-            <div className="w-1/4 bg-gray-600 p-3 flex">
-              <h4 className="text-white text-2xl ml-3">
-                {" "}
-                Duration: {content.duration}
-              </h4>
+
+            <div className="w-1/4 bg-gray-600 p-3 flex mt-2">
+              <h4 className="text-white text-xl ml-3">Duration: {content.duration}</h4>
             </div>
+
             <button
-              className={`
-                    w-1/4
-                    rounded-xl text-xl
-                    font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
-                    bg-transparent border-white border-2 hover:bg-green-600 text-white
-                   `}
+              className="w-1/4 rounded-xl text-lg font-semibold 
+      hover:text-white py-3 px-4 hover:border-transparent 
+      transition duration-500 outline-none mt-4 
+      bg-transparent border-white border-2 
+      hover:bg-green-600 text-white"
               type="submit"
               onClick={enroll}
             >
-           Enroll Now
+              Enroll Now
             </button>
           </div>
           <section>
-            <div className="pl-16 py-16 ">
+            <div className="pl-16 py-16 pr-16">
               <h3 className="text-3xl pb-4 font-semibold">Overview</h3>
               <p className="tracking-widest text-xl">{content.description}</p>
             </div>
@@ -129,23 +130,23 @@ function CourseDetails() {
               type="submit"
               onClick={enroll}
             >
-             Enroll Now
+              Enroll Now
             </button>
           </section>
           <ToastContainer
-        position="top-right"
-        autoClose={2000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition:Bounce
-        className="z-[1000]"
-      />
+            position="top-right"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+            transition:Bounce
+            className="z-[1000]"
+          />
         </div>
       )}
     </>

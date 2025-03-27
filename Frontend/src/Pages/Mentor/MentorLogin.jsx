@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "../../App.css";
 import { MdEmail } from "react-icons/md";
 import { FaKey } from "react-icons/fa";
-import Lord1 from "../../assets/lord4.jpg";
+import Lord1 from "../../assets/mentor_login.jpg";
 
 export default function MentorLogin() {
   const { isLoggedIn, setLoggedIn, SetUser } = useAuthContext();
@@ -41,6 +41,7 @@ export default function MentorLogin() {
   const handleLogin = async (data) => {
     try {
       setIsLoading(true);
+      console.log("Login Data:", data);
       const response = await fetch(`${VITE_BACKEND_URL}/api/auth/mentorSignin`, {
         method: "POST",
         headers: {
@@ -50,6 +51,7 @@ export default function MentorLogin() {
       });
 
       const result = await response.json();
+      console.log("Response from Backend:", result);
 
       if (result.success) {
         toast.success(result.message);
@@ -71,7 +73,7 @@ export default function MentorLogin() {
     <div className="h-full w-full flex items-center justify-center gap-10  bg-gray-200 ">
       <div>
         <div className="text-3xl font-extrabold  text-bl text-center non-italic">
-          Mentor Login
+          MENTOR LOGIN
         </div>
         <div className="p-4">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -147,9 +149,10 @@ export default function MentorLogin() {
         </div>
       </div>
 
-      <div className=" w-1/4 h-2/4">
+      <div className=" w-2/5 h-3/4 pt-10 mt-16">
         <img src={Lord1} alt="" />
       </div>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}

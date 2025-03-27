@@ -8,7 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { MdEmail } from "react-icons/md";
 import { FaKey } from "react-icons/fa";
-import Lord1 from "../../assets/lord2.jpg"
+import Lord1 from "../../assets/stud_login.jpg"
 
 
 export default function Login() {
@@ -145,7 +145,7 @@ export default function Login() {
         </div>
       </div>
 
-      <div className=" w-1/4 h-2/4">
+      <div className=" w-1/3 h-3/5 mt-10">
         <img src={Lord1} alt="" />
 
       </div>
