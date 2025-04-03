@@ -106,7 +106,6 @@ const createCourse = async (req, res) => {
       ]);
 
       const course_id = courseResult.rows[0]?.course_id;
-
       // Insert data into the 'course_content' table
       const insertContentQuery = `
           INSERT INTO course_content (course_id, project, assessments, description, tagline, syllabus)

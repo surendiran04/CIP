@@ -25,12 +25,18 @@ function CreateCourse() {
     } = useForm();
 
     const onSubmit = (data) => {
-        const projectString =data.project;
-        data.project=JSON.parse(`[${projectString}]`);
-        const syllabusString=data.syllabus;
-        data.syllabus=JSON.parse(`[${syllabusString}]`);
-        const assessmentString=data.assessments;
-        data.assessments=JSON.parse(`[${assessmentString}]`);
+        // const projectString =data.project;
+        // data.project=JSON.parse(`[${projectString}]`);
+        // const syllabusString=data.syllabus;
+        // data.syllabus=JSON.parse(`[${syllabusString}]`);
+        // const assessmentString=data.assessments;
+        // data.assessments=JSON.parse(`[${assessmentString}]`);
+        // data.project = data.project.split(",").map(item => item.trim());
+        // data.syllabus = data.syllabus.split(",").map(item => item.trim());
+        // data.assessments = data.assessments.split(",").map(item => item.trim());
+        data.project = data.project.split(",").map(item => item.split("-").map(subItem => subItem.trim()));
+    data.syllabus = data.syllabus.split(",").map(item => item.split("-").map(subItem => subItem.trim()));
+    data.assessments = data.assessments.split(",").map(item => item.split("-").map(subItem => subItem.trim()));
         console.log(data)
         handleInput(data);
         reset();

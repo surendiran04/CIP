@@ -153,7 +153,8 @@ function MentorDashboard() {
                         Create Mentor
                     </NavLink>
                     <NavLink
-                        to=""
+                        to="https://meet-clone-xsvm.onrender.com/"
+                         target="_blank"
                         className={` 
                     w-1/4
                     text-center
@@ -162,7 +163,7 @@ function MentorDashboard() {
                     bg-transparent border-white border-2 hover:bg-b2 text-white
                         `}
                     >
-                        Courses
+                        Online Meet
                     </NavLink>
 
                 </div>

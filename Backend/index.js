@@ -13,8 +13,10 @@ app.use(body_parser.json());
 app.use("/api/auth", AuthRouter); // app.use(AuthRouter) 
 app.use(courseRouter)
 
-
 db.connect();
+// db.on('error', (err) => {
+//     console.error('Unexpected database error:', err);
+//   });
 
 app.listen(PORT, () => {
     console.log(`Server connected successfully at ${PORT}`);
