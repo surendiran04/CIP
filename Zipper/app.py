@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 from bson.objectid import ObjectId
 from db import attendance_collection, faces_collection
-from face_recognition import recognize_face, register_face
+from face_recognition import recognize_faces,recognize_face, register_face
 
 # ✅ Load environment variables
 load_dotenv()
@@ -34,27 +34,26 @@ def mark_attendance():
     image_path = os.path.join(UPLOAD_FOLDER, "temp.jpg")
     file.save(image_path)
 
-    face_id = recognize_face(image_path)
-    print(face_id)
-    if not face_id:
-      return jsonify({"name": "Unknown", "status": "Not Marked"})
-    if face_id:
-        # Fetch user details
+    face_ids = recognize_faces(image_path)
+    print("Recognized Face IDs:", face_ids)
+
+    attendance_records = []
+
+    for face_id in face_ids:
         user = faces_collection.find_one({"_id": ObjectId(face_id)}, {"name": 1, "photo_url": 1})
-        if not user:
-            return jsonify({"message": "User not found!"}), 404
+        if user:
+            attendance_collection.insert_one({
+                "face_id": face_id,
+                "timestamp": datetime.utcnow()
+            })
 
-        # Insert attendance record
-        attendance_collection.insert_one({"face_id": str(face_id), "timestamp": datetime.utcnow()})
+            attendance_records.append({
+                "name": user["name"],
+                "photo_url": user.get("photo_url"),
+                "status": "Present"
+            })
 
-        return jsonify({
-            "name": user["name"],
-            "photo_url": user.get("photo_url"),
-            "status": "Present"
-        })
-
-    return jsonify({"name": "Unknown", "status": "Not Marked"})
-
+    return jsonify({"attendance_records": attendance_records})
 
 @app.route("/attendance", methods=["GET"])
 def get_attendance():
