@@ -62,6 +62,18 @@ function App() {
     ));
   }
 
+ 
+
+  function renderMentorAdminRoutes() {
+    return AdminRoutes.map((route, index) => (
+      <Route
+        key={`${route.title}-${index}`}
+        Component={route.Component}
+        path={`/admin${route.path}`}
+      />
+    ));
+  }
+
   return (
     <div className="w-screen h-screen flex">
       <div className={`${open ? "w-44 fixed" : "w-24 fixed"} `}>
@@ -72,6 +84,7 @@ function App() {
           {renderRoutes()}
           {(isLoggedIn && userRoles==="student") ?(renderStudentPrivateRoutes()):(renderStudentPublicRoutes())}
           {(isLoggedIn && userRoles==="mentor") ?(renderMentorPrivateRoutes()):(renderMentorPublicRoutes())}
+          {(!isLoggedIn && userRoles==="admin")?(renderMentorAdminRoutes()):(renderStudentPublicRoutes())} 
           <Route Component={NotFound} path="*" />;
           <Route Component={MentorSignUp} path="/mentor/signup1"/>
         </Routes>

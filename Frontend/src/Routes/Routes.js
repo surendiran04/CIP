@@ -17,6 +17,8 @@ import CreateCourse from '../Pages/Course/CreateCourse';
 import Courses from '../Pages/Course/Courses';
 import Mycourses from '../Pages/Course/Mycourses';
 import Class from '../Pages/Course/Class';
+import AdminDashboard from '../Pages/Admin/AdminDashboard';
+import Pin from '../Pages/Admin/pin';
 
 export const ROUTES = [
   {
@@ -125,6 +127,39 @@ export const mentorPrivateRoutes = [
     Component: CreateCourse,
     path: "/createcourse",
   },
+];
+
+export const AdminRoutes = [
+  {
+    title: "Dashboard",
+    Component: AdminDashboard,
+    path: "/dashboard",
+  },
+  {
+    title: "Pin",
+    Component: Pin,
+    path: "/pin",
+  },
+  {
+    title: "Mentor SignUp",
+    Component:MentorSignUp,
+    path: "/signup",
+  },
+  {
+    title: "View Students",
+    Component: ViewStudents,
+    path: "/viewstudents",
+  },
+  {
+    title: "View Mentors",
+    Component: ViewMentors,
+    path: "/viewmentors",
+  },
+  {
+    title: "Create Couse",
+    Component: CreateCourse,
+    path: "/createcourse",
+  }
 ];
 
 export default { ROUTES, studentPrivateRoutes, studentPublicRoutes,mentorPublicRoutes, mentorPrivateRoutes };
