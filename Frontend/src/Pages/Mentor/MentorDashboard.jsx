@@ -85,6 +85,7 @@ function MentorDashboard() {
                 setData(result.sessionData[0]?.session_data || {});
                 const completed = new Set(Object.keys(result.sessionData[0]?.session_data || {}).map(Number));
                 setCompletedSessions(completed);
+                console.log(completed);
             } else {
                 toast.info(result.message);
             }
@@ -92,9 +93,108 @@ function MentorDashboard() {
             toast.error(error.message);
         }
     };
+    const handleTakeAttendance = async () => {
+        try {
+            setIsLoading(true);
+            const response = await fetch(`${VITE_BACKEND_URL}/startAttendance`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ courseId: user.course_id }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                toast.success("Attendance marking enabled");
+            } else {
+                toast.warn(result.message);
+            }
+        } catch (error) {
+            toast.error("Failed to take attendance!");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     return (
         <div>
+            <div className='flex flex-col gap-3 w-full  bg-v1 p-10'>
+                <h1 className='text-4xl text-white mb-2'> Hi Mentor,</h1>
+                {/* grid grid-cols-2 gap-2 grid-flow-row */}
+                <div className='flex justify-evenly m-10 flex-wrap  gap-20'>
+                    <NavLink
+                        to="/mentor/viewstudents"
+                        className={`
+                    w-1/4
+                    text-center
+                    rounded-xl text-xl
+                    font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
+                    bg-transparent border-white border-2 hover:bg-b2 text-white
+                        `}
+                    >
+                        Students
+                    </NavLink>
+                    <NavLink
+                        to="/mentor/viewmentors"
+                        className={`
+                    w-1/4
+                    text-center
+                    rounded-xl text-xl
+                    font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
+                    bg-transparent border-white border-2 hover:bg-b2 text-white
+                        `}
+                    >
+                        Mentors
+                    </NavLink>
+
+                    <NavLink
+                        to="/mentor/createcourse"
+                        className={`
+                    w-1/4
+                    text-center
+                    rounded-xl text-xl
+                    font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
+                    bg-transparent border-white border-2 hover:bg-b2 text-white
+                        `}
+                    >
+                        Create Course
+                    </NavLink>
+
+                    <NavLink
+                        to="/mentor/signup"
+                        className={` 	
+                    w-1/4
+                    text-center
+                    rounded-xl text-xl
+                    font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
+                    bg-transparent border-white border-2 hover:bg-b2 text-white
+                        `}
+                    >
+                        Create Mentor
+                    </NavLink>
+                    <NavLink
+                        to="https://meet-clone-xsvm.onrender.com/"
+                        className={` 
+                    w-1/4
+                    text-center
+                    rounded-xl text-xl
+                    font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
+                    bg-transparent border-white border-2 hover:bg-b2 text-white
+                        `}
+                    >
+                        Online Meet
+                    </NavLink>
+                    <button onClick={handleTakeAttendance} className="w-1/4
+                    text-center
+                    rounded-xl text-xl
+                    font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
+                    bg-transparent border-white border-2 hover:bg-b2 text-white">
+                        Take Attendance
+                    </button>
+
+                </div>
+            </div>
             <div className='grid grid-cols-4 ml-3 gap-5'>
                 <div className='col-span-3 p-10 border-gray-900 border-2 mt-10'>
                     <div className='mb-4'>
@@ -131,7 +231,7 @@ function MentorDashboard() {
                     </form>
                 </div>
                 <div className=''>
-                    <Attendance course_id={user.course_id} />
+                    <Attendance course_id={user.course_id} handleTakeAttendance={handleTakeAttendance} />
                 </div>
             </div>
             <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark" transition:Bounce />
