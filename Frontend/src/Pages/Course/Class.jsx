@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import AccordianVideo from "../../Components/AccordianVideo";
 import { useParams } from "react-router-dom";
 import { useAuthContext } from "../../Contexts/AuthContext";
+import { io } from "socket.io-client";
 const { VITE_BACKEND_URL } = import.meta.env;
+
+const socket = io(import.meta.env.VITE_BACKEND_URL);
 
 function Class() {
   const { id } = useParams();
@@ -10,17 +13,62 @@ function Class() {
 
   const [sessionBtnValue, setSessionBtnValue] = useState(null);
   const [data, setData] = useState({});
-  const [attendance,setAttendance] = useState();
+  const [attendance, setAttendance] = useState();
+
+  const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+  const [attendanceToken, setAttendanceToken] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("Connected to WebSocket:", socket.id);
+    });
+
+    return () => socket.off("connect");
+  }, []);
+
+  socket.onAny((event, data) => {
+    console.log("Received event:", event, "with data:", data);
+  });
+
 
   useEffect(() => {
     getSessionData();
-    getAttendance({course_id:id,student_id:user?.student_id})
+    getAttendance({ course_id: id, student_id: user?.student_id });
+    if (!id) return;  // Ensure courseId exists
+
+    console.log("🔹 Joining room:", id);
+    socket.emit("joinRoom", id);  // Students join the course room
+
+    socket.on("roomJoined", (room) => {
+      console.log(`Successfully joined room: ${room}`);
+    });
+
+    socket.on("attendanceStarted", (data) => {
+      console.log("Attendance event received with token:", data?.token);
+      setShowPopup(true);
+      setIsButtonEnabled(true);  // Enable the button
+      setAttendanceToken(data?.token);  // Store the token
+      setTimeout(() => setShowPopup(false), 4000);
+    });
+
+    return () => {
+      socket.emit("leaveRoom", id);  // Leave room when component unmounts
+      socket.off("attendanceStarted");
+    };
   }, [id]);
 
   const sessionBtn = (e) => {
     setSessionBtnValue(e.target.innerHTML);
   };
 
+  //attendance link to be added here
+  const handleAttendanceClick = () => {
+    if (attendanceToken) {
+      window.location.href = `http://localhost:5174/attendance/verify?token=${attendanceToken}`;
+    }
+  };
 
   const getAttendance = async (data) => {
     try {
@@ -62,10 +110,16 @@ function Class() {
   };
 
   const totalClass = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
- 
+
 
   return (
     <div className="grid grid-cols-4 p-4 gap-8">
+      {/* Popup Notification for Attendance */}
+      {showPopup && (
+        <div className="fixed top-10 right-10 bg-green-500 text-white p-4 rounded-lg shadow-lg z-50">
+          Attendance Marking Enabled! Please mark your presence.
+        </div>
+      )}
       <div className="col-span-3 p-10 border-gray-900 border-2 mt-10">
         <div className=" mb-4 ">
           <div className="text-3xl font-semibold ">
@@ -121,13 +175,25 @@ function Class() {
               className="text-4xl "
             ></meter>
             <span
-              className={`text-xl font-bold ${
-                attendance > 75 ? "text-green-900" : "text-r"
-              }`}
+              className={`text-xl font-bold ${attendance > 75 ? "text-green-900" : "text-r"
+                }`}
             >
               {attendance}%
             </span>
           </div>
+          <button
+            onClick={handleAttendanceClick}
+            disabled={!isButtonEnabled}
+            style={{
+              backgroundColor: isButtonEnabled ? "blue" : "gray",
+              color: "white",
+              padding: "10px 15px",
+              border: "none",
+              cursor: isButtonEnabled ? "pointer" : "not-allowed"
+            }}
+          >
+            Mark Attendance
+          </button>
         </div>
       </div>
       <div className="col-span-4 w-full p-8 border-black border-2">

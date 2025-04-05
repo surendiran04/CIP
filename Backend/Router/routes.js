@@ -25,6 +25,9 @@ const {
   enrollCourse, getStudentCourse,  getStudent,getMentor,getStudentByCourse,updateAttendance,getAttendance
 } = require("../Controllers/batch.controller")
 
+const { startAttendance, getAttendanceToken } = require("../Controllers/batch.controller");
+
+
 const {
   makePayment
 } = require("../Controllers/payment.controller")
@@ -57,6 +60,9 @@ courseRouter.post("/enrollCourse",   enrollCourse);
 courseRouter.post("/getStudentCourse", getStudentCourse);  //my courses 
 courseRouter.get("/getStudentByCourse/:id", getStudentByCourse);
 courseRouter.post("/updateAttendance", updateAttendance ); 
+
+courseRouter.post("/startAttendance", startAttendance); // Mentor starts attendance
+courseRouter.get("/getAttendanceToken/:courseId", getAttendanceToken); // Student fetches token
 
 courseRouter.post("/makePayment",  makePayment);
 

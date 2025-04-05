@@ -82,14 +82,14 @@ function Home() {
         <div className='bg-gray-200 flex  flex-col justify-center items-center  '>
           <MdEmail className=' text-xl' />
           <h3 className='font-bold  text-xl '>Email address</h3>
-          <p className='font-semibold'>apharisangar4@gmail.come</p>
-          <p className='font-semibold'>anasbhai@gmail.come</p>
+          <p className='font-semibold'>hari@gmail.com</p>
+          <p className='font-semibold'>shri@gmail.com</p>
         </div>
         <div className='bg-gray-200 flex  flex-col justify-center items-center  '>
           <IoLocation className='text-2xl' />
           <h3 className='font-bold text-xl'>Office address</h3>
-          <p className='font-semibold'>flat no. 1, a-1 building,</p>
-          <p className='font-semibold'>jogeshwari, mumbai, india - 400145</p>
+          <p className='font-semibold'>12, Sardar PateL Rd, Anna University</p>
+          <p className='font-semibold'>Guindy, Chennnai, Tamil Nadu 600025</p>
         </div>
       </div>
     </div>
