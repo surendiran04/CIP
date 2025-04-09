@@ -77,70 +77,98 @@ function Attendance() {
   };
 
   return (
-    <div>
-      <h2 className="text-3xl font-semibold mb-4">Attendance</h2>
-      <form
-        className=" border-black border-2 p-4"
-        onSubmit={handleSubmit(attendanceBtn)}
-      >
-        {StudentsData?.map((d, i) => (
-          <div key={i} className="flex gap-3">
-            <div className="text-xl">
-              {`${i + 1}.`}
-              {d.student_name}
-            </div>
-            <input
-              className="scale-150 accent-lime-600"
-              {...register(`${d.student_id}`, {
-                required: "Attendance is required",
-              })}
-              type="radio"
-              name={d.student_id}
-              value="1"
-            />
-            <label for="yes">Present</label>
-            <input
-              className="scale-150 accent-lime-600"
-              {...register(`${d.student_id}`, {
-                required: "Attendance is required",
-              })}
-              type="radio"
-              name={d.student_id}
-              value="0"
-            />
-            <label for="no">Absent</label>
-          </div>
-        ))}
-
-        <button
-          className={`
-                                w-full
-                                rounded-xl
-                                font-bold hover:text-white py-3 px-4 border hover:border-transparent transition duration-500 outline-none mt-5 mb-4 ${
-                                  isLoading
-                                    ? "bg-green-600  text-white"
-                                    : "bg-transparent border-black border-2 hover:bg-db text-darkb"
-                                }`}
-          type="submit"
-          onClick={notify}
-          disabled={isLoading}
+    <div className="flex justify-center">
+      <div>
+        <h2 className="text-3xl font-semibold mb-4 text-center">Attendance</h2>
+        <form
+          className="border-black border-2 p-6 rounded-xl bg-white"
+          onSubmit={handleSubmit(attendanceBtn)}
         >
-          Submit
-        </button>
-      </form>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition:Bounce
-      />
+          <table className="w-full table-fixed border-separate border-spacing-y-2">
+            <thead>
+              <tr className="text-center text-lg font-semibold border-b border-gray-300">
+                <th className="w-1/12 border-r border-gray-400">#</th>
+                <th className="w-3/12 border-r border-gray-400">Name</th>
+                <th className="w-2/12 border-r border-gray-400">Present</th>
+                <th className="w-2/12">Absent</th>
+              </tr>
+            </thead>
+            <tbody>
+              {StudentsData?.map((d, i) => (
+                <tr key={i} className="text-center text-base">
+                  <td className="py-2 align-middle border-r border-gray-200">
+                    {i + 1}.
+                  </td>
+                  <td className="py-2 align-middle border-r border-gray-200">
+                    {d.student_name}
+                  </td>
+                  <td className="py-2 align-middle border-r border-gray-200">
+                    <input
+                      className="scale-125 accent-green-600"
+                      {...register(`${d.student_id}`, {
+                        required: "Attendance is required",
+                      })}
+                      type="radio"
+                      name={d.student_id}
+                      value="1"
+                    />
+                  </td>
+                  <td className="py-2 align-middle">
+                    <input
+                      className="scale-125 accent-red-600"
+                      {...register(`${d.student_id}`, {
+                        required: "Attendance is required",
+                      })}
+                      type="radio"
+                      name={d.student_id}
+                      value="0"
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <button
+            className={`
+                w-full
+                rounded-xl
+                font-bold
+                hover:text-white
+                py-3 px-4
+                border
+                hover:border-transparent
+                transition duration-500
+                outline-none
+                mt-5 mb-4
+                ${isLoading
+                ? "bg-green-600 text-white"
+                : "bg-transparent border-black border-2 hover:bg-db text-darkb"
+              }
+            `}
+            type="submit"
+            onClick={notify}
+            disabled={isLoading}
+          >
+            Submit
+          </button>
+
+        </form>
+
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          transition:Bounce
+        />
+      </div>
     </div>
   );
 }
