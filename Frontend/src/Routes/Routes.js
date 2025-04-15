@@ -19,7 +19,6 @@ import Mycourses from '../Pages/Course/Mycourses';
 import Class from '../Pages/Course/Class';
 import AdminDashboard from '../Pages/Admin/AdminDashboard';
 import Pin from '../Pages/Admin/pin';
-import ViewCourses from '../Pages/Course/ViewCourses';
 import AdminCoursesDetails from '../Pages/Course/ViewCourses';
 import { Component } from 'lucide-react';
 
@@ -170,7 +169,7 @@ export const AdminRoutes = [
   },
   {
     title: "View Courses",
-    Component: ViewCourses,
+    Component: AdminCoursesDetails,
     path: "/viewcourses"
   }
 ];
