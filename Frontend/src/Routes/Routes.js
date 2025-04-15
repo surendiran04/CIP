@@ -20,7 +20,6 @@ import Class from '../Pages/Course/Class';
 import AdminDashboard from '../Pages/Admin/AdminDashboard';
 import Pin from '../Pages/Admin/pin';
 import AdminCoursesDetails from '../Pages/Course/ViewCourses';
-import { Component } from 'lucide-react';
 
 export const ROUTES = [
   {
@@ -109,11 +108,11 @@ export const mentorPrivateRoutes = [
     Component: MentorDashboard,
     path: "/dashboard",
   },
-  {
-    title: "Mentor SignUp",
-    Component: MentorSignUp,
-    path: "/signup",
-  },
+  // {
+  //   title: "Mentor SignUp",
+  //   Component: MentorSignUp,
+  //   path: "/signup",
+  // },
   {
     title: "View Students",
     Component: ViewStudents,
@@ -124,11 +123,11 @@ export const mentorPrivateRoutes = [
     Component: ViewMentors,
     path: "/viewmentors",
   },
-  {
-    title: "Create Couse",
-    Component: CreateCourse,
-    path: "/createcourse",
-  },
+  // {
+  //   title: "Create Couse",
+  //   Component: CreateCourse,
+  //   path: "/createcourse",
+  // },
 ];
 
 export const AdminRoutes = [
