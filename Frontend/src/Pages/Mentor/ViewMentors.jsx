@@ -16,7 +16,6 @@ function ViewMentors() {
     reset,
   } = useForm();
 
-
   const onSubmit = (data) => {
     if (data.search === "") {
       setMentors(mentorsDuplicate); // Restore full list
@@ -24,11 +23,9 @@ function ViewMentors() {
       const filterdata = mentorsDuplicate.filter((d) => 
         d.mentor_name.toLowerCase().includes(data.search.toLowerCase())
       );
-      sets(filterdata);
+      setMentors(filterdata);
     }
   };
-
- 
   useEffect(() => {
     fetchMentors();
   }, []);

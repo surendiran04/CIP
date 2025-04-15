@@ -37,7 +37,6 @@ io.on("connection", (socket) => {
         // console.log("Clients in room AFTER JOIN:", io.sockets.adapter.rooms.get(courseId));
         socket.emit("roomJoined", courseId);
     });
-    
 
     socket.on("leaveRoom", (courseId) => {
         socket.leave(courseId);
@@ -48,8 +47,6 @@ io.on("connection", (socket) => {
         console.log("❌ Student disconnected:", socket.id);
     });
 });
-
-
 // Use a single port for both HTTP and Socket.io
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
