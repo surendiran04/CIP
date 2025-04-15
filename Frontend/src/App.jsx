@@ -1,7 +1,7 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { useAuthContext } from "../src/Contexts/AuthContext";
-import { ROUTES, studentPrivateRoutes, studentPublicRoutes, mentorPublicRoutes, mentorPrivateRoutes } from "./Routes/Routes"
+import { ROUTES, studentPrivateRoutes, studentPublicRoutes, mentorPublicRoutes, mentorPrivateRoutes, AdminRoutes } from "./Routes/Routes";
 import NotFound from "../src/Pages/NotFound";
 import Sidebar from "./Components/sidebar.jsx";
 import MentorSignUp from './Pages/Mentor/MentorSignup'
@@ -84,7 +84,7 @@ function App() {
           {renderRoutes()}
           {(isLoggedIn && userRoles==="student") ?(renderStudentPrivateRoutes()):(renderStudentPublicRoutes())}
           {(isLoggedIn && userRoles==="mentor") ?(renderMentorPrivateRoutes()):(renderMentorPublicRoutes())}
-          {(!isLoggedIn && userRoles==="admin")?(renderMentorAdminRoutes()):(renderStudentPublicRoutes())} 
+          {renderMentorAdminRoutes()}
           <Route Component={NotFound} path="*" />;
           <Route Component={MentorSignUp} path="/mentor/signup1"/>
         </Routes>

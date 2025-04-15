@@ -19,6 +19,9 @@ import Mycourses from '../Pages/Course/Mycourses';
 import Class from '../Pages/Course/Class';
 import AdminDashboard from '../Pages/Admin/AdminDashboard';
 import Pin from '../Pages/Admin/pin';
+import ViewCourses from '../Pages/Course/ViewCourses';
+import AdminCoursesDetails from '../Pages/Course/ViewCourses';
+import { Component } from 'lucide-react';
 
 export const ROUTES = [
   {
@@ -28,7 +31,7 @@ export const ROUTES = [
   },
   {
     title: "Courses",
-    Component:Courses,
+    Component: Courses,
     path: "/courses"
   },
   {
@@ -40,7 +43,7 @@ export const ROUTES = [
     title: "Profile",
     Component: Profile,
     path: "/profile"
-  },{
+  }, {
     title: "Checkout",
     Component: Checkout,
     path: "/checkout/:id"
@@ -49,12 +52,12 @@ export const ROUTES = [
 
 export const studentPrivateRoutes = [
   {
-    title:"My courses",
+    title: "My courses",
     Component: Mycourses,
     path: "/mycourses",
   },
   {
-    title:"Class",
+    title: "Class",
     Component: Class,
     path: "/class/:id",
   },
@@ -86,17 +89,17 @@ export const studentPublicRoutes = [
 export const mentorPublicRoutes = [
   {
     title: "Mentor Login",
-    Component:MentorLogin,
+    Component: MentorLogin,
     path: "/Login",
   },
   {
     title: "Mentor Reset Password",
-    Component:MentorForgotPassword,
+    Component: MentorForgotPassword,
     path: "/ForgotPassword",
   },
   {
     title: "Mentor update password",
-    Component:MentorUpdatePassword,
+    Component: MentorUpdatePassword,
     path: "/resetPassword/:id/:token",
   }
 ];
@@ -109,7 +112,7 @@ export const mentorPrivateRoutes = [
   },
   {
     title: "Mentor SignUp",
-    Component:MentorSignUp,
+    Component: MentorSignUp,
     path: "/signup",
   },
   {
@@ -142,7 +145,7 @@ export const AdminRoutes = [
   },
   {
     title: "Mentor SignUp",
-    Component:MentorSignUp,
+    Component: MentorSignUp,
     path: "/signup",
   },
   {
@@ -159,7 +162,17 @@ export const AdminRoutes = [
     title: "Create Couse",
     Component: CreateCourse,
     path: "/createcourse",
+  },
+  {
+    title: "Courses",
+    Component: Courses,
+    path: "/courses"
+  },
+  {
+    title: "View Courses",
+    Component: ViewCourses,
+    path: "/viewcourses"
   }
 ];
 
-export default { ROUTES, studentPrivateRoutes, studentPublicRoutes,mentorPublicRoutes, mentorPrivateRoutes };
+export default { ROUTES, studentPrivateRoutes, studentPublicRoutes, mentorPublicRoutes, mentorPrivateRoutes, AdminRoutes };
