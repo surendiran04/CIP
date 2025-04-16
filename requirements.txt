@@ -5,5 +5,4 @@ deepface
 opencv-python
 mediapipe
 python-dotenv
-pyngrok
 pydantic
