@@ -59,7 +59,7 @@ courseRouter.get("/getCourse", getCourse);
 courseRouter.get("/getCourseContent", getCourseContent);
 courseRouter.post("/createSession", createSession); 
 courseRouter.get("/getSession/:id",getSession); 
-courseRouter.post("/getAttendance",getAttendance);
+courseRouter.post("/getAttendance",getAttendance); //rework
 
 courseRouter.post("/enrollCourse",   enrollCourse);
 courseRouter.post("/getStudentCourse", getStudentCourse);  //my courses 

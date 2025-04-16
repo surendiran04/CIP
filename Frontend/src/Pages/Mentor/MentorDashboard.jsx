@@ -110,6 +110,7 @@ function MentorDashboard() {
             toast.error(error.message);
         }
     };
+    
     const handleTakeAttendance = async () => {
         try {
             setIsLoading(true);
