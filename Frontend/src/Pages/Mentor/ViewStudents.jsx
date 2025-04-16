@@ -1,11 +1,13 @@
 import React, { useState,useEffect } from 'react'
 import { useForm } from "react-hook-form";
+import { useAuthContext } from "../../Contexts/AuthContext";
 import { FaSearch } from "react-icons/fa";
 const { VITE_BACKEND_URL } = import.meta.env;
 
 
 function ViewStudents() {
-  
+  const { decodedToken,user } = useAuthContext();
+  const userRoles = decodedToken?.role[0] ; 
   const [students,setStudents] = useState([]);
   const [studentsDuplicate,setStudentsDuplicate] = useState([]);
 
@@ -29,8 +31,31 @@ function ViewStudents() {
   } = useForm();
 
   useEffect(() => {
-    fetchStudents();
+    if(userRoles==="admin"){
+      fetchStudents();
+    }else{
+      fetchStudentsById();
+    }
+    
   }, []);
+
+  const fetchStudentsById = async()=>{
+    console.log(user.course_id);
+    try{
+        const response = await fetch(`${VITE_BACKEND_URL}/getStudent/${user.course_id}`, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+        const result = await response.json();
+        setStudents(result.data);
+        setStudentsDuplicate(result.data)
+    }
+    catch (error){
+        console.log(error.message)
+    }
+  }
 
   const fetchStudents = async()=>{
     try{
@@ -48,6 +73,8 @@ function ViewStudents() {
         console.log(error.message)
     }
   }
+
+
   return (
     
     <div className=''>

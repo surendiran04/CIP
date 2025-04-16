@@ -22,7 +22,7 @@ const {
 } = require("../Controllers/course.controller");
 
 const {
-  enrollCourse, getStudentCourse,  getStudent,getMentor,getStudentByCourse,updateAttendance,getAttendance
+  enrollCourse, getStudentCourse,  getStudent,getMentor,getStudentByCourse,updateAttendance,getAttendance,getStudentById
 } = require("../Controllers/batch.controller")
 
 const { startAttendance, getAttendanceToken } = require("../Controllers/batch.controller");
@@ -31,6 +31,8 @@ const { startAttendance, getAttendanceToken } = require("../Controllers/batch.co
 const {
   makePayment
 } = require("../Controllers/payment.controller")
+
+const {signInAdmin} = require("../Controllers/admin.controller");
 
 const AuthRouter = require("express").Router();
 const courseRouter = require("express").Router();
@@ -45,7 +47,10 @@ AuthRouter.post("/mentorSignin", signInMentor);
 AuthRouter.post("/mentorForgotPassword", forgotPasswordMentor);
 AuthRouter.patch("/mentorResetPassword/:id/:token", updatePassMentor);
 
+AuthRouter.post("/adminSignin",signInAdmin);
+
 courseRouter.get("/getStudent", getStudent);
+courseRouter.get("/getStudent/:id",getStudentById);
 courseRouter.get("/getMentor", getMentor);
 
 courseRouter.post("/createCourse", createCourse);
@@ -65,5 +70,7 @@ courseRouter.post("/startAttendance", startAttendance); // Mentor starts attenda
 courseRouter.get("/getAttendanceToken/:courseId", getAttendanceToken); // Student fetches token
 
 courseRouter.post("/makePayment",  makePayment);
+
+
 
 module.exports ={ AuthRouter,courseRouter};

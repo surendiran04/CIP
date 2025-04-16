@@ -155,44 +155,7 @@ function MentorDashboard() {
                     >
                         Students
                     </NavLink>
-                    <NavLink
-                        to="/mentor/viewmentors"
-                        className={`
-                    w-1/4
-                    text-center
-                    rounded-xl text-xl
-                    font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
-                    bg-transparent border-white border-2 hover:bg-b2 text-white
-                        `}
-                    >
-                        Mentors
-                    </NavLink>
-
-                    <NavLink
-                        to="/mentor/createcourse"
-                        className={`
-                    w-1/4
-                    text-center
-                    rounded-xl text-xl
-                    font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
-                    bg-transparent border-white border-2 hover:bg-b2 text-white
-                        `}
-                    >
-                        Create Course
-                    </NavLink>
-
-                    <NavLink
-                        to="/mentor/signup"
-                        className={` 	
-                    w-1/4
-                    text-center
-                    rounded-xl text-xl
-                    font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
-                    bg-transparent border-white border-2 hover:bg-b2 text-white
-                        `}
-                    >
-                        Create Mentor
-                    </NavLink>
+                  
                     <NavLink
                         to="https://meet-clone-xsvm.onrender.com/"
                         className={` 

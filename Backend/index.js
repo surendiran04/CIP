@@ -25,9 +25,8 @@ app.use(body_parser.json());
 app.use("/api/auth", AuthRouter);
 app.use(courseRouter);
 
-db.connect();
+// db.connect();
 
-// Socket.io connection handling
 io.on("connection", (socket) => {
     // console.log(`New client connected: ${socket.id}`);
 

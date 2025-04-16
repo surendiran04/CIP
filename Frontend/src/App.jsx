@@ -1,16 +1,22 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import { useAuthContext } from "../src/Contexts/AuthContext";
-import { ROUTES, studentPrivateRoutes, studentPublicRoutes, mentorPublicRoutes, mentorPrivateRoutes, AdminRoutes } from "./Routes/Routes";
+import {
+  ROUTES,
+  studentPrivateRoutes,
+  studentPublicRoutes,
+  mentorPublicRoutes,
+  mentorPrivateRoutes,
+  AdminRoutes,
+} from "./Routes/Routes";
 import NotFound from "../src/Pages/NotFound";
 import Sidebar from "./Components/sidebar.jsx";
-import MentorSignUp from './Pages/Mentor/MentorSignup'
+import Pin from "./Pages/Admin/Pin.jsx";
 
 function App() {
-  const { isLoggedIn,decodedToken,open } = useAuthContext();
+  const { isLoggedIn, decodedToken, open } = useAuthContext();
 
-  const userRoles = decodedToken?.role[0] ;  //for role based routes
-
+  const userRoles = decodedToken?.role[0]; //for role based routes
 
   function renderRoutes() {
     return ROUTES.map((route, index) => (
@@ -62,8 +68,6 @@ function App() {
     ));
   }
 
- 
-
   function renderMentorAdminRoutes() {
     return AdminRoutes.map((route, index) => (
       <Route
@@ -82,11 +86,19 @@ function App() {
       <div className={` ${open ? "w-full ml-44" : "ml-24 w-full"} `}>
         <Routes>
           {renderRoutes()}
-          {(isLoggedIn && userRoles==="student") ?(renderStudentPrivateRoutes()):(renderStudentPublicRoutes())}
-          {(isLoggedIn && userRoles==="mentor") ?(renderMentorPrivateRoutes()):(renderMentorPublicRoutes())}
-          {renderMentorAdminRoutes()}
+          {isLoggedIn && userRoles === "student" ? renderStudentPrivateRoutes():renderStudentPublicRoutes()}
+          {isLoggedIn && userRoles === "mentor"? renderMentorPrivateRoutes(): renderMentorPublicRoutes()}
+          {isLoggedIn && userRoles === "admin"? renderMentorAdminRoutes(): renderStudentPublicRoutes()}
+          {!isLoggedIn && userRoles != "admin" ? (
+            <Route
+              key={"Pin"}
+              Component={Pin}
+              path={`/admin/pin`}
+            />
+          ) : (
+            renderStudentPublicRoutes()
+          )}
           <Route Component={NotFound} path="*" />;
-          <Route Component={MentorSignUp} path="/mentor/signup1"/>
         </Routes>
       </div>
     </div>

@@ -45,17 +45,10 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-200 pt-4">
-      {/* Header */}
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-200">
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 shadow-md">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <h1 className="text-3xl font-bold text-white">Hi Admin</h1>
-          <div className="flex items-center space-x-4">
-            <span className="text-white font-medium">{user?.name || 'Admin'}</span>
-            <div className="w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold shadow-md border-2 border-transparent hover:shadow-lg transition duration-300">
-              {user?.name?.charAt(0).toUpperCase() || 'A'}
-            </div>
-          </div>
         </div>
       </div>
 

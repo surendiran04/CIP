@@ -14,7 +14,9 @@ const db = new pg.Client({
   }
 });
 
-
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
+});
 // async function getPgVersion() {    //to check whether the db is connected or not
 //     const result = await db.query(`select version()`);
 //     console.log(result);

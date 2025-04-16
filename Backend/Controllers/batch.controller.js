@@ -121,6 +121,27 @@ const getStudent = async (req, res) => {
   }
 }
 
+const getStudentById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const studentObject = await db.query(
+      `SELECT student_name, batch_name, s.student_id, phone, email 
+       FROM STUDENT s 
+       JOIN batch b ON b.student_id = s.student_id 
+       WHERE b.course_id = $1`,
+      [id]
+    );
+    const students = studentObject.rows;
+    if (students) {
+      return res.status(200).json({ success: true, message: "Students fetched successfully", data: students });
+    } else {
+      return res.status(500).json({ success: false, message: "Something went wrong!" });
+    }
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message, });
+  }
+}
+
 const getMentor = async (req, res) => {
   try {
     const mentorObject = await db.query("SELECT mentor_name,mentor_id,phone,email,course FROM mentor");
@@ -235,4 +256,4 @@ const getAttendance = async (req, res) => {
   }
 }
 
-module.exports = { enrollCourse, getStudentCourse, getStudent, getMentor, getStudentByCourse, updateAttendance, getAttendance, startAttendance, getAttendanceToken};
+module.exports = { enrollCourse, getStudentCourse, getStudent, getMentor, getStudentByCourse, updateAttendance, getAttendance, startAttendance, getAttendanceToken, getStudentById};

@@ -18,8 +18,13 @@ import Courses from '../Pages/Course/Courses';
 import Mycourses from '../Pages/Course/Mycourses';
 import Class from '../Pages/Course/Class';
 import AdminDashboard from '../Pages/Admin/AdminDashboard';
-import Pin from '../Pages/Admin/pin';
+// import Pin from '../Pages/Admin/Pin';
 import AdminCoursesDetails from '../Pages/Course/ViewCourses';
+import AttendanceHome from "../Pages/Mentor/Attendance/Home"
+import Records from "../Pages/Mentor/Attendance/Records"
+import RegisteredUsers from "../Pages/Mentor/Attendance/RegisteredUsers"
+import Register from "../Pages/Mentor/Attendance/RegisterFace"
+import FaceAttendance from '../Pages/Course/Attendance';
 
 export const ROUTES = [
   {
@@ -108,26 +113,36 @@ export const mentorPrivateRoutes = [
     Component: MentorDashboard,
     path: "/dashboard",
   },
-  // {
-  //   title: "Mentor SignUp",
-  //   Component: MentorSignUp,
-  //   path: "/signup",
-  // },
   {
     title: "View Students",
     Component: ViewStudents,
     path: "/viewstudents",
   },
   {
-    title: "View Mentors",
-    Component: ViewMentors,
-    path: "/viewmentors",
+    title: "Attendance Home page",
+    Component: AttendanceHome,
+    path: "/att",
   },
-  // {
-  //   title: "Create Couse",
-  //   Component: CreateCourse,
-  //   path: "/createcourse",
-  // },
+  {
+    title: "View Attendance records",
+    Component: Records,
+    path: "/attrecords",
+  },
+  {
+    title: "View registered users",
+    Component: RegisteredUsers,
+    path: "/attregusers",
+  },
+  {
+    title: "Register new face",
+    Component: Register,
+    path: "/attregister",
+  },
+  {
+    title:"Mark attendance",
+    Component:FaceAttendance,
+    path:"/markatt"
+  }
 ];
 
 export const AdminRoutes = [
@@ -136,11 +151,11 @@ export const AdminRoutes = [
     Component: AdminDashboard,
     path: "/dashboard",
   },
-  {
-    title: "Pin",
-    Component: Pin,
-    path: "/pin",
-  },
+  // {
+  //   title: "Pin",
+  //   Component: Pin,
+  //   path: "/pin",
+  // },
   {
     title: "Mentor SignUp",
     Component: MentorSignUp,

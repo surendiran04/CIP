@@ -5,7 +5,7 @@ import { useAuthContext } from "../../Contexts/AuthContext";
 import { io } from "socket.io-client";
 const { VITE_BACKEND_URL } = import.meta.env;
 
-const socket = io(import.meta.env.VITE_BACKEND_URL);
+const socket = io(VITE_BACKEND_URL);
 
 function Class() {
   const { id } = useParams();
