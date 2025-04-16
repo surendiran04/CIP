@@ -146,7 +146,7 @@ function MentorDashboard() {
                     <NavLink
                         to="/mentor/viewstudents"
                         className={`
-                    w-1/4
+                    w-[300px]
                     text-center
                     rounded-xl text-xl
                     font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
@@ -155,11 +155,11 @@ function MentorDashboard() {
                     >
                         Students
                     </NavLink>
-                  
+
                     <NavLink
                         to="https://meet-clone-xsvm.onrender.com/"
                         className={` 
-                    w-1/4
+                    w-[300px]
                     text-center
                     rounded-xl text-xl
                     font-semibold hover:text-white py-3 px-4  hover:border-transparent transition duration-500 outline-none mt-5 mb-4 
@@ -171,10 +171,34 @@ function MentorDashboard() {
                     <button
                         onClick={handleTakeAttendance}
                         disabled={attendanceActive}
-                        className={`w-1/4 text-center rounded-xl text-xl font-semibold py-3 px-4 mt-5 mb-4 transition duration-500 outline-none 
+                        className={`w-[300px] text-center rounded-xl text-xl font-semibold py-3 px-4 mt-5 mb-4 transition duration-500 outline-none 
     ${attendanceActive ? "bg-gray-400 text-white cursor-not-allowed" : "bg-transparent border-white border-2 hover:bg-b2 text-white"}`}>
-                        Take Attendance
+                        Enable Attendance
                     </button>
+
+                    <NavLink
+                        to="/mentor/markatt"
+                        className={`w-[300px] text-center rounded-xl text-xl font-semibold hover:text-white py-3 px-4 hover:border-transparent transition duration-500 outline-none mt-5 mb-4 bg-transparent border-white border-2 hover:bg-b2 text-white`}>
+                        Mark Attendance
+                    </NavLink>
+
+                    <NavLink
+                        to="/mentor/attregister"
+                        className={`w-[300px] text-center rounded-xl text-xl font-semibold hover:text-white py-3 px-4 hover:border-transparent transition duration-500 outline-none mt-5 mb-4 bg-transparent border-white border-2 hover:bg-b2 text-white`}>
+                        Register Face
+                    </NavLink>
+
+                    <NavLink
+                        to="/mentor/attrecords"
+                        className={`w-[300px] text-center rounded-xl text-xl font-semibold hover:text-white py-3 px-4 hover:border-transparent transition duration-500 outline-none mt-5 mb-4 bg-transparent border-white border-2 hover:bg-b2 text-white`}>
+                        Attendance Records
+                    </NavLink>
+
+                    <NavLink
+                        to="/mentor/attregusers"
+                        className={`w-[300px] text-center rounded-xl text-xl font-semibold hover:text-white py-3 px-4 hover:border-transparent transition duration-500 outline-none mt-5 mb-4 bg-transparent border-white border-2 hover:bg-b2 text-white`}>
+                        Registered Users
+                    </NavLink>
 
 
                 </div>
