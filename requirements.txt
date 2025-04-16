@@ -1,0 +1,8 @@
+flask
+flask_cors
+pymongo
+deepface
+opencv-python
+mediapipe
+python-dotenv
+pyngrok
