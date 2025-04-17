@@ -16,7 +16,7 @@ export const useCourseContext = () => useContext(CourseContext);
 
 export default function CourseContextProvider({ children }){
 
-  const { user, isLoggedIn } = useAuthContext();
+  const { user, decodedToken,isLoggedIn } = useAuthContext();
    
    const student_id = user?.student_id;
 
@@ -26,6 +26,9 @@ export default function CourseContextProvider({ children }){
    const [filterdata,setFilterdata] = useState([]);
    const [isLoading, setIsLoading] = useState(true);
    const [isContentLoading, setContentLoading] = useState(true);
+   const [studentsData, setStudentsData] = useState([]);
+   const [isStudentsLoading, setIsStudentsLoading] = useState(true);
+
 
   useEffect(() => {
     fetchCourseData();
@@ -87,6 +90,41 @@ export default function CourseContextProvider({ children }){
     }
   }  
 
+  const fetchStudents = async () => {
+    try {
+      const response = await fetch(`${VITE_BACKEND_URL}/getStudent`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const result = await response.json();
+      setStudentsData(result.data);
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsStudentsLoading(false);
+    }
+  };
+  
+  const fetchStudentsByCourse = async (course_id) => {
+    try {
+      const response = await fetch(`${VITE_BACKEND_URL}/getStudent/${course_id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const result = await response.json();
+      setStudentsData(result.data);
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      setIsStudentsLoading(false);
+    }
+  };
+  
+
 
   useEffect(()=>{
     const myCourseIds = mycourse.map(course => course.course_id);
@@ -94,14 +132,29 @@ export default function CourseContextProvider({ children }){
   setFilterdata(data)
   },[mycourse])
 
+  useEffect(() => {
+    if (!user) return;
+
+    if (decodedToken?.role[0] === "admin") {
+      console.log("admin")
+      fetchStudents();
+    } else if (user?.course_id) {
+      fetchStudentsByCourse(user.course_id);
+    }
+  }, [user]);
+  
+
 
   const values = Object.seal({
     courseData,
     courseContent,
+    filterdata,
+    studentsData,
     isLoading,
     isContentLoading,
-    filterdata
+    isStudentsLoading,
   });
+  
 
   return <CourseContext.Provider value={values}>{children}</CourseContext.Provider>;
 }

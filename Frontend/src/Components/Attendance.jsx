@@ -55,7 +55,7 @@ function Attendance() {
   const updateAttendance = async (data) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${VITE_BACKEND_URL}/updateAttendance`, {
+      const response = await fetch(`${VITE_BACKEND_URL}/manualupdateAttendance`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

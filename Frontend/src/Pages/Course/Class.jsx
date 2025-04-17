@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AccordianVideo from "../../Components/AccordianVideo";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../Contexts/AuthContext";
 import { io } from "socket.io-client";
 const { VITE_BACKEND_URL } = import.meta.env;
@@ -9,6 +9,7 @@ const socket = io(VITE_BACKEND_URL);
 
 function Class() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { user } = useAuthContext();
 
   const [sessionBtnValue, setSessionBtnValue] = useState(null);
@@ -66,7 +67,7 @@ function Class() {
   //attendance link to be added here
   const handleAttendanceClick = () => {
     if (attendanceToken) {
-      window.location.href = `http://localhost:5174/attendance/verify?token=${attendanceToken}`;
+      navigate(`/student/markatt/${attendanceToken}/${id}`)
     }
   };
 

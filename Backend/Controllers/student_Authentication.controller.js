@@ -192,4 +192,5 @@ const updatePassStudent = async (req, res) => {
 
 
 
+
 module.exports = { createStudent, signInStudent, forgotPasswordStudent, updatePassStudent };

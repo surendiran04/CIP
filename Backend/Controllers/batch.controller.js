@@ -183,8 +183,6 @@ const startAttendance = (req, res) => {
   const token = crypto.randomBytes(16).toString("hex");
   sessionTokens.set(courseId, { token, expiresAt: Date.now() + 5 * 60 * 1000 });
 
-  // Notify students in the course
-  // courseId is in string!
   console.log("Emitting attendanceStarted for course:", courseId);
   console.log("Active rooms at attendance start:", io.sockets.adapter.rooms);
   console.log("Clients in room:", io.sockets.adapter.rooms.get(String(courseId)));
@@ -196,37 +194,47 @@ const startAttendance = (req, res) => {
 
 const updateAttendance = async (req, res) => {
   const { token, student_ids, course_id } = req.body;
+  const courseIdNum = Number(course_id);
 
-  // Check if course_id exists
-  if (!course_id) {
+  if (! courseIdNum) {
     return res.status(400).json({ success: false, message: "Course ID is required" });
   }
 
-  // Check if session exists
-  if (!sessionTokens.has(course_id)) {
+  if (!sessionTokens.has(courseIdNum)) {
     return res.status(403).json({ success: false, message: "Attendance not active" });
   }
 
-  const session = sessionTokens.get(course_id);
+  const session = sessionTokens.get( courseIdNum);
 
-  // Validate token and expiration
   if (session.token !== token) {
     return res.status(403).json({ success: false, message: "Invalid token" });
   }
 
   if (Date.now() > session.expiresAt) {
-    sessionTokens.delete(course_id); // Expired session should be removed
+    sessionTokens.delete(courseIdNum); 
     return res.status(403).json({ success: false, message: "Token expired" });
   }
-
   try {
-    for (const student_id of student_ids) {
+    for (const student_id of Object.keys(student_ids)) {
       const incrementBoth = student_ids[student_id] === "1";
-      await db.query("CALL update_class_attendance($1, $2, $3)", [student_id, course_id, incrementBoth]);
+      await db.query("SELECT update_class_attendance($1, $2, $3)", [student_id, courseIdNum, incrementBoth]);
     }
-    return res.status(200).json({ success: true, message: "Attendance updated for all students" });
+    return res.status(200).json({ success: true, message: "Attendance updated" });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const ManualupdateAttendance = async (req, res) => {
+  const { student_ids, course_id } = req.body;
+  try {
+    for (const student_id in student_ids) {
+      const incrementBoth = student_ids[student_id] === '1';
+      await db.query('SELECT update_class_attendance($1, $2, $3)', [student_id, course_id, incrementBoth]);
+    }
+    res.status(200).json({ success: true, message: 'Attendance updated for all students' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -256,4 +264,4 @@ const getAttendance = async (req, res) => {
   }
 }
 
-module.exports = { enrollCourse, getStudentCourse, getStudent, getMentor, getStudentByCourse, updateAttendance, getAttendance, startAttendance, getAttendanceToken, getStudentById};
+module.exports = { enrollCourse, getStudentCourse, getStudent, getMentor, getStudentByCourse, updateAttendance, ManualupdateAttendance, getAttendance, startAttendance, getAttendanceToken, getStudentById};

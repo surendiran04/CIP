@@ -20,7 +20,6 @@ import Class from '../Pages/Course/Class';
 import AdminDashboard from '../Pages/Admin/AdminDashboard';
 // import Pin from '../Pages/Admin/Pin';
 import AdminCoursesDetails from '../Pages/Course/ViewCourses';
-import AttendanceHome from "../Pages/Mentor/Attendance/Home"
 import Records from "../Pages/Mentor/Attendance/Records"
 import RegisteredUsers from "../Pages/Mentor/Attendance/RegisteredUsers"
 import Register from "../Pages/Mentor/Attendance/RegisterFace"
@@ -64,6 +63,11 @@ export const studentPrivateRoutes = [
     Component: Class,
     path: "/class/:id",
   },
+  {
+    title:"Mark attendance",
+    Component:FaceAttendance,
+    path:"/markatt/:token/:id"
+  }
 ];
 
 export const studentPublicRoutes = [
@@ -117,11 +121,6 @@ export const mentorPrivateRoutes = [
     title: "View Students",
     Component: ViewStudents,
     path: "/viewstudents",
-  },
-  {
-    title: "Attendance Home page",
-    Component: AttendanceHome,
-    path: "/att",
   },
   {
     title: "View Attendance records",

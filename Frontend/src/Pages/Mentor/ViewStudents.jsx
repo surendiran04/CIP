@@ -1,25 +1,26 @@
 import React, { useState,useEffect } from 'react'
 import { useForm } from "react-hook-form";
-import { useAuthContext } from "../../Contexts/AuthContext";
+import { useCourseContext } from "../../Contexts/CourseContext";
 import { FaSearch } from "react-icons/fa";
-const { VITE_BACKEND_URL } = import.meta.env;
 
 
 function ViewStudents() {
-  const { decodedToken,user } = useAuthContext();
-  const userRoles = decodedToken?.role[0] ; 
-  const [students,setStudents] = useState([]);
+  const { studentsData } = useCourseContext();
   const [studentsDuplicate,setStudentsDuplicate] = useState([]);
+
+  useEffect(() => {
+    setStudentsDuplicate(studentsData);
+  }, [studentsData]);
 
 
   const onSubmit = (data) => {
     if (data.search === "") {
-      setStudents(studentsDuplicate); // Restore full list
+      setStudentsDuplicate(studentsDuplicate); // Restore full list
     } else {
-      const filterdata = studentsDuplicate.filter((d) => 
+      const filterdata = studentsData.filter((d) => 
         d.student_name.toLowerCase().includes(data.search.toLowerCase())
       );
-      setStudents(filterdata);
+      setStudentsDuplicate(filterdata);
     }
   };
 
@@ -30,50 +31,7 @@ function ViewStudents() {
     reset,
   } = useForm();
 
-  useEffect(() => {
-    if(userRoles==="admin"){
-      fetchStudents();
-    }else{
-      fetchStudentsById();
-    }
-    
-  }, []);
-
-  const fetchStudentsById = async()=>{
-    console.log(user.course_id);
-    try{
-        const response = await fetch(`${VITE_BACKEND_URL}/getStudent/${user.course_id}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-        const result = await response.json();
-        setStudents(result.data);
-        setStudentsDuplicate(result.data)
-    }
-    catch (error){
-        console.log(error.message)
-    }
-  }
-
-  const fetchStudents = async()=>{
-    try{
-        const response = await fetch(`${VITE_BACKEND_URL}/getStudent`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-        const result = await response.json();
-        setStudents(result.data);
-        setStudentsDuplicate(result.data)
-    }
-    catch (error){
-        console.log(error.message)
-    }
-  }
-
+  
 
   return (
     
@@ -113,7 +71,7 @@ function ViewStudents() {
           </thead>
           <tbody>
           {
-            students?.map((d,i)=>(
+            studentsDuplicate?.map((d,i)=>(
               <tr key={i}>
               <td className='border-black border-2 p-2' >{i+1}</td>
               <td className='border-black border-2 p-2' >{d.student_id}</td>

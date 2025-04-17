@@ -46,6 +46,7 @@ io.on("connection", (socket) => {
         console.log("❌ Student disconnected:", socket.id);
     });
 });
+
 // Use a single port for both HTTP and Socket.io
 const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
