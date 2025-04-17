@@ -143,7 +143,7 @@ function MentorDashboard() {
             <div className='flex flex-col gap-3 w-full  bg-v1 p-10'>
                 <h1 className='text-4xl text-white mb-2'> Hi Mentor,</h1>
                 {/* grid grid-cols-2 gap-2 grid-flow-row */}
-                <div className='flex justify-evenly m-10 flex-wrap  gap-20'>
+                <div className='flex justify-center m-10 flex-wrap  gap-20'>
                     <NavLink
                         to="/mentor/viewstudents"
                         className={`
