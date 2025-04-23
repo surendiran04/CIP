@@ -1,30 +1,44 @@
 import { useEffect, useState } from "react";
 const { VITE_BACKEND_URL1 } = import.meta.env;
 
+import { useAuthContext } from "../../../Contexts/AuthContext";
+
 const Records = () => {
+  const { user } = useAuthContext();
+
+  console.log(user);
   const [records, setRecords] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${VITE_BACKEND_URL1}/attendance`, {
+        const response = await fetch(`${VITE_BACKEND_URL1}/attendance/${user.course_id}`, {
           method: "GET",
-          credentials: 'include' 
+          credentials: 'include'
         });
-  
-        const data = await response.json(); 
+
+        const data = await response.json();
         console.log(data);
-        setRecords(data.attendance_records || []); 
+        setRecords(data.attendance_records ||[]);
+        
       } catch (error) {
         console.error("Error fetching attendance:", error);
-        setRecords([]); 
+        setRecords([]);
       }
     };
-  
-    fetchData();
-  }, []);
-  
 
+    fetchData();
+    // setRecords([
+    //   {
+    //     "course_id": "15",
+    //     "name": "Harisangar A P",
+    //     "student_id": "11",
+    //     "timestamp": "2025-04-23T19:39:32.696000"
+    //   }
+    // ]);
+  }, [user]);
+
+console.log(records);
   return (
     <div className="p-5">
       <h2 className="text-2xl font-bold text-center mb-4">Attendance Records</h2>
