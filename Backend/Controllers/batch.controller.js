@@ -204,7 +204,7 @@ const updateAttendance = async (req, res) => {
     return res.status(403).json({ success: false, message: "Attendance not active" });
   }
 
-  const session = sessionTokens.get( courseIdNum);
+  const session = sessionTokens.get(courseIdNum);
 
   if (session.token !== token) {
     return res.status(403).json({ success: false, message: "Invalid token" });
@@ -214,6 +214,25 @@ const updateAttendance = async (req, res) => {
     sessionTokens.delete(courseIdNum); 
     return res.status(403).json({ success: false, message: "Token expired" });
   }
+  try {
+    for (const student_id of Object.keys(student_ids)) {
+      const incrementBoth = student_ids[student_id] === "1";
+      await db.query("SELECT update_class_attendance($1, $2, $3)", [student_id, courseIdNum, incrementBoth]);
+    }
+    return res.status(200).json({ success: true, message: "Attendance updated" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+const MentorupdateAttendance = async (req, res) => {
+  const { student_ids, course_id } = req.body;
+  const courseIdNum = Number(course_id);
+
+  if (! courseIdNum) {
+    return res.status(400).json({ success: false, message: "Course ID is required" });
+  }
+
   try {
     for (const student_id of Object.keys(student_ids)) {
       const incrementBoth = student_ids[student_id] === "1";
@@ -264,4 +283,4 @@ const getAttendance = async (req, res) => {
   }
 }
 
-module.exports = { enrollCourse, getStudentCourse, getStudent, getMentor, getStudentByCourse, updateAttendance, ManualupdateAttendance, getAttendance, startAttendance, getAttendanceToken, getStudentById};
+module.exports = { enrollCourse, getStudentCourse, getStudent, getMentor, getStudentByCourse, updateAttendance,MentorupdateAttendance, ManualupdateAttendance, getAttendance, startAttendance, getAttendanceToken, getStudentById};

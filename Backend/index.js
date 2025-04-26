@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
         // console.log("Clients in room AFTER JOIN:", io.sockets.adapter.rooms.get(courseId));
         socket.emit("roomJoined", courseId);
     });
-
+    
     socket.on("leaveRoom", (courseId) => {
         socket.leave(courseId);
         console.log(`❌ Student ${socket.id} left room: ${courseId}`);

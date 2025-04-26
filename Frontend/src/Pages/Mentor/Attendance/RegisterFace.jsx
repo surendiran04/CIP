@@ -69,6 +69,7 @@ const Register = () => {
       const response = await fetch(`${VITE_BACKEND_URL1}/register_face`, {
         method: "POST",
         body: formData,
+
       });
       const data = await response.json();
       if(data.success){

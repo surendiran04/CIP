@@ -1,41 +1,24 @@
-import { useRef, useState,useEffect } from "react";
+import { useRef, useState } from "react";
 import Webcam from "react-webcam";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuthContext } from "../../Contexts/AuthContext";
 
 const { VITE_BACKEND_URL1, VITE_BACKEND_URL } = import.meta.env;
 
-const FaceAttendance = () => {
-   const { user } = useAuthContext();
+const AdminFaceAttendance = () => {
+    const { user } = useAuthContext();
   const webcamRef = useRef(null);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const navigate = useNavigate();
-  const { token, id } = useParams();
 
   const capture = () => {
     const imageSrc = webcamRef.current.getScreenshot();
     setImage(imageSrc);
   };
-
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
-
-useEffect(() => {
-  const interval = setInterval(() => {
-    setTimeLeft((prev) => {
-      if (prev <= 1) {
-        clearInterval(interval);
-        navigate(`/student/class/${id}`);
-      }
-      return prev - 1;
-    });
-  }, 1000);
-
-  return () => clearInterval(interval);
-}, []);
 
 
   // Convert Data URL to File
@@ -62,27 +45,24 @@ useEffect(() => {
     const imageFile = dataURLtoFile(image, "attendance.jpg");
     const formData = new FormData();
     formData.append("image", imageFile);
-    formData.append("course_id",id);
+    formData.append("course_id",user.course_id);
   
 
     try {
       const response = await fetch(`${VITE_BACKEND_URL1}/attendance`, {
         method: "POST",
         body: formData,
-        headers: { "Content-Type": "application/json",
-          "ngrok-skip-browser-warning": "69420" }
+        
       });
       const data = await response.json();
       setResult(data);
-      console.log(data,user)
-      console.log(data.status == 'Present' && data?.student_id && user?.student_id && data.student_id == user.student_id,user.student_id)
-      if (data.status == 'Present' && data?.student_id && user?.student_id && data.student_id == user.student_id)  {
-        const resp = await fetch(`${VITE_BACKEND_URL}/updateAttendance`, {
+      console.log(data)
+      if (data)  {
+        const resp = await fetch(`${VITE_BACKEND_URL}/mentorUpdateAttendance`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            token,
-            course_id:id,
+            course_id:user.course_id,
             student_ids: { [data.student_id]: "1" }, // Assuming '1' for both present + class increment
           }),
         });
@@ -90,7 +70,6 @@ useEffect(() => {
         
         if(data1.success){
           toast.success(data1.message);
-          setTimeout(() => navigate(`/student/class/${id}`), 5000);
         }else{
           toast.info(data1.message)
         }
@@ -107,7 +86,6 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-6">
-      <p>Time left to mark attendance: {timeLeft} seconds</p>
 
       <ToastContainer
         position="top-right"
@@ -160,5 +138,5 @@ useEffect(() => {
   );
 };
 
-export default FaceAttendance;
+export default AdminFaceAttendance;
 

@@ -24,6 +24,7 @@ import Records from "../Pages/Mentor/Attendance/Records"
 import RegisteredUsers from "../Pages/Mentor/Attendance/RegisteredUsers"
 import Register from "../Pages/Mentor/Attendance/RegisterFace"
 import FaceAttendance from '../Pages/Course/Attendance';
+import AdminFaceAttendance from "../Pages/Course/AdminAttendance"
 
 export const ROUTES = [
   {
@@ -139,7 +140,7 @@ export const mentorPrivateRoutes = [
   },
   {
     title:"Mark attendance",
-    Component:FaceAttendance,
+    Component:AdminFaceAttendance,
     path:"/markatt"
   }
 ];

@@ -9,7 +9,8 @@ const RegisteredUsers = () => {
       try {
         const response = await fetch(`${VITE_BACKEND_URL1}/registered_faces`, {
           method: "GET",
-          credentials: 'include'
+          headers: { "Content-Type": "application/json",
+            "ngrok-skip-browser-warning": "69420" }
         });
         const data = await response.json();
         console.log(data);

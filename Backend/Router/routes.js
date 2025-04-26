@@ -22,7 +22,7 @@ const {
 } = require("../Controllers/course.controller");
 
 const {
-  enrollCourse, getStudentCourse,  getStudent,getMentor,getStudentByCourse,updateAttendance, ManualupdateAttendance,getAttendance,getStudentById
+  enrollCourse, getStudentCourse,  getStudent,getMentor,getStudentByCourse,updateAttendance,MentorupdateAttendance, ManualupdateAttendance,getAttendance,getStudentById
 } = require("../Controllers/batch.controller")
 
 const { startAttendance, getAttendanceToken } = require("../Controllers/batch.controller");
@@ -65,7 +65,9 @@ courseRouter.post("/enrollCourse",   enrollCourse);
 courseRouter.post("/getStudentCourse", getStudentCourse);  //my courses 
 courseRouter.get("/getStudentByCourse/:id", getStudentByCourse);
 courseRouter.post("/updateAttendance", updateAttendance );  
-courseRouter.post("/manualupdateAttendance", ManualupdateAttendance );
+courseRouter.post("/mentorUpdateAttendance", MentorupdateAttendance );  
+
+courseRouter.post("/manualupdateAttendance", ManualupdateAttendance ); 
 
 courseRouter.post("/startAttendance", startAttendance); // Mentor starts attendance
 courseRouter.get("/getAttendanceToken/:courseId", getAttendanceToken); // Student fetches token
