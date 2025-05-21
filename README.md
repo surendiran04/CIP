@@ -1,8 +1,8 @@
-# 👩‍💻 FaceSnap – Smart E-Learning & Attendance Management System
+# FaceSnap – Smart E-Learning & Attendance Management System
 
 ---
 
-## 📌 Overview
+## Overview
 
 **FaceSnap** is a full-stack web application that revolutionizes online learning with **AI-powered facial recognition** for secure and automated attendance. Designed to simulate real classroom engagement, FaceSnap integrates a custom video conferencing system and role-based dashboards for Admins, Mentors, and Students.
 
@@ -42,9 +42,11 @@
 
 
 
+
+
 ---
 
-Meeting link :https://meet-clone-xsvm.onrender.com/
+## Getting Started
 
 Step1: Installtion of necessary dependencies<br/>
 `!pip install flask flask-cors pymongo deepface opencv-python mediapipe python-dotenv pyngrok ` <br/> <br/>
@@ -87,3 +89,7 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)  # ✅ Listen on all interfaces
 
 ```
+
+---
+## Meeting Link
+Meeting link :https://meet-clone-xsvm.onrender.com/
