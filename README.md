@@ -1,3 +1,49 @@
+# 👩‍💻 FaceSnap – Smart E-Learning & Attendance Management System
+
+---
+
+## 📌 Overview
+
+**FaceSnap** is a full-stack web application that revolutionizes online learning with **AI-powered facial recognition** for secure and automated attendance. Designed to simulate real classroom engagement, FaceSnap integrates a custom video conferencing system and role-based dashboards for Admins, Mentors, and Students.
+
+---
+
+## Key Features
+
+- **Facial Recognition Attendance**  
+  Detects and verifies student identity in real-time using **DeepFace + OpenCV**.
+
+- **Google Meet-like Video Conferencing**  
+  Built-in live class sessions with **webcam-triggered attendance validation**.
+
+- **Role-Based Access**  
+  Secure JWT-authenticated dashboards for **Admins, Mentors, and Students**.
+
+- **Course Management System**  
+  Mentors can manage sessions, track progress, and monitor attendance.
+
+- **Security & Performance**  
+  Secure token-based routing, bcrypt password encryption, modular REST APIs, and cloud storage.
+
+---
+
+## Tech Stack
+
+**Frontend:** ReactJS, TailwindCSS  
+**Backend:** Flask, ExpressJS  
+**Face Recognition:** OpenCV, DeepFace, MediaPipe  
+**Database:** MongoDB Atlas (attendance), PostgreSQL (user & course data)  
+**Auth:** JWT (JSON Web Tokens)  
+**Others:** React-Toastify, Lucide Icons, Context API
+
+---
+
+## Screenshots
+
+
+
+---
+
 Meeting link :https://meet-clone-xsvm.onrender.com/
 
 Step1: Installtion of necessary dependencies<br/>
