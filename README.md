@@ -30,12 +30,14 @@
 ## Tech Stack
 
 **Frontend:** ReactJS, TailwindCSS  
-**Backend:** Flask, ExpressJS  
+**Backend:** Flask, ExpressJS, Node.js
+**State Management:** context Api for state management
 **Face Recognition:** OpenCV, DeepFace, MediaPipe  
-**Database:** MongoDB Atlas (attendance), PostgreSQL (user & course data)  
-**Auth:** JWT (JSON Web Tokens)  
-**Others:** React-Toastify, Lucide Icons, Context API
-
+**Database:** MongoDB Atlas (attendance), PostgreSQL - hosted on Neon Cloud (user & course data)  
+**Authentication:** JSON Web Tokens (JWT) for user authentication and authorization
+**Others:** React-Toastify, Lucide Icons, Nodemailer
+**Security:** bcrypt,a hashing technique for hashing password for security
+Api Handling: efficiently managed API calls by implementing Fetch,Try & catch blocks for fetching data from Backend Api's synchronously and also used asynchronous functions in both the frontend and backend, and by structuring the code modularly.
 ---
 
 ## Screenshots
