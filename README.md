@@ -41,7 +41,7 @@
 
 ---
 
-## Screenshots
+## PPT & Screenshots
 
 
 
@@ -52,13 +52,60 @@
 ## Getting Started
 
 Step1: Upload the Backed.ipynb file to Google collab<br/>
-`!pip install flask flask-cors pymongo deepface opencv-python mediapipe python-dotenv pyngrok ` <br/> <br/>
-Step 2: Download the files in the Zipper-drive folder upload it in the collab n the files section<br/>
+Step 2: Download the files in the Zipper-drive folder upload it in the collab under the files section<br/>
 
-Step 3: Go ngrok website and generate a ngrok authtoken - To create deployed url of the running port in collab <a href="https://ngrok.com">Ngrok Link</a><br/>
+Step 3: Go ngrok website and generate a ngrok authtoken - To create deployed url of the running port in collab which will eventually give a deployed url <a href="https://ngrok.com">Ngrok Link</a><br/>
 ` !ngrok config add-authtoken YOUR_NGROK_AUTHTOKEN ` <br/> <br/>
 
+Step 4.Install server dependencies:
+```bash
+cd Backend
+npm install
+```
+Step 5. Install client dependencies:
+```bash
+cd Frontend
+npm install
+```
 
+step 6. Create .env file in backend root directory with:
+```env
+PORT=3000
+secretkey=
+FRONTEND_URL=http://localhost:5173
+ADMIN_PIN =
+
+
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PASS=
+EMAIL_USER=
+
+(neon postgreSQL DB credentials)
+PGHOST=
+PGDATABASE=
+PGUSER=
+PGPASSWORD=
+```
+step 7. Create .env file in frontend root directory with:
+```
+VITE_BACKEND_URL=http://localhost:3000
+VITE_BACKEND_URL1=  (paste the generated deployed url from collab)
+```
+step 8. Start the development servers:
+
+For backend:
+
+```bash
+cd Backend
+npm run dev
+```
+
+For frontend:
+
+```bash
+cd Frontend
+npm run dev
+```
 
 ---
 ## Meeting Link
