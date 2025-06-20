@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 # ✅ Load Environment Variables (If running locally)
 load_dotenv()
-MONGO_URI = os.getenv("MONGO_URI") or "mongodb+srv://FaceSnapAdmin:Face123@face.5znfi.mongodb.net/?retryWrites=true&w=majority&appName=Face" # Fallback for Colab
+MONGO_URI = os.getenv("MONGO_URI") or "" 
 
 # ✅ Connect to MongoDB Atlas
 try:
